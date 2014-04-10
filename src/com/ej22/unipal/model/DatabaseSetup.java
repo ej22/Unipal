@@ -66,7 +66,7 @@ public class DatabaseSetup {
 					KEY_SUBJECT + " text not null, " + 
 					KEY_TYPE + " text not null, " +
 					KEY_SUBTYPE + " text, " + 
-					KEY_DUE_DATE + " datetime not null, " + 
+					KEY_DUE_DATE + " date not null, " + 
 					KEY_DESC + " text);";
 	
 	private static final String CREATE_MOD_GRA_TABLE = 
