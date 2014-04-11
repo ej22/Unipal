@@ -2,9 +2,9 @@ package com.ej22.unipal.adapter;
 
 import java.util.ArrayList;
 
+import com.ej22.unipal.R;
 import com.ej22.unipal.model.DrawerListItemSetup;
 
-import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -26,22 +26,19 @@ public class DrawerListItemAdapterSetup extends BaseAdapter {
 
 	@Override
 	public Object getItem(int pos) {
-		// TODO Auto-generated method stub
 		return drawerListItem.get(pos);
 	}
 
 	@Override
 	public long getItemId(int pos) {
-		// TODO Auto-generated method stub
 		return pos;
 	}
 
 	@Override
 	public View getView(int pos, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		if (convertView == null){
 			LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			convertView = mInflater.inflate(com.ej22.unipal.R.layout.drawer_list_custom_layout, null);
+			convertView = mInflater.inflate(R.layout.drawer_list_custom_layout, null);
 		}
 		
 		ImageView imgIcon = (ImageView) convertView.findViewById(R.id.icon);
@@ -55,8 +52,7 @@ public class DrawerListItemAdapterSetup extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return drawerListItem.size();
 	}
 
 }
