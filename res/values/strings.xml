@@ -12,5 +12,9 @@
         <item>Tasks</item>
         <item>Exams</item>
     </string-array>
+    
+    <array name="drawer_items_icons">
+        <item>@drawable/book_icon</item>
+    </array>
 
 </resources>
