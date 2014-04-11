@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 		
-		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.book_icon,
+		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer,
 				R.string.app_name, 
 				R.string.app_name){
 			
