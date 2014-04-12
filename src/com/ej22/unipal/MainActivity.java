@@ -65,8 +65,8 @@ public class MainActivity extends Activity {
 		getActionBar().setHomeButtonEnabled(true);
 		
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer,
-				R.string.app_name, 
-				R.string.app_name){
+		R.string.app_name, 
+		R.string.app_name){
 			
 			public void onDrawerClosed(View view){
 				getActionBar().setTitle(menuTitle);
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int pos,
-				long id) {
+		long id) {
 			// TODO Auto-generated method stub
 			displayView(pos);
 		}
