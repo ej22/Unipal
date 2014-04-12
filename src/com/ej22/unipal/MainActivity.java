@@ -76,6 +76,10 @@ public class MainActivity extends Activity {
 			}
 		};
 		
+		if(savedInstanceState == null){
+			displayView(0);
+		}
+		
 		drawerLayout.setDrawerListener(drawerToggle);		
 		
 		drawerListView.setOnItemClickListener(new SlideMenuClickListener());
@@ -98,6 +102,18 @@ public class MainActivity extends Activity {
 		switch(pos){
 		case 0:
 			frag = new OverViewFragment();
+			break;
+		case 1:
+			frag = new ModuleFragment();
+			break;
+		case 2:
+			frag = new GradeFragment();
+			break;
+		case 3:
+			frag = new TaskFragment();
+			break;
+		case 4:
+			frag = new ExamFragment();
 			break;
 		default:
 			break;
