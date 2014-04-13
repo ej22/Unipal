@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +22,6 @@ public class EventFragment extends Fragment{
 
 	private int day, month, year;
 	TextView spinnerTxt;
-	Button cancelBtn, enterBtn;
 	
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
@@ -37,8 +35,6 @@ public class EventFragment extends Fragment{
 		year = c.get(Calendar.YEAR);
 		
 		View rootView = inflater.inflate(R.layout.fragment_event, container, false);
-		cancelBtn = (Button)rootView.findViewById(R.id.cancelButton);
-		enterBtn = (Button)rootView.findViewById(R.id.enterButton);
 		
 		spinnerTxt = (TextView)rootView.findViewById(R.id.dueDateDialog);
 		spinnerTxt.setText("" + day + " of " + getStringMonth(month) + " " + year);
@@ -74,11 +70,12 @@ public class EventFragment extends Fragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		int id = item.getItemId();
-		if (id == R.id.Cancel_Action) {
+		if (id == R.id.menu_cancel_btn) {
 			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
-		if (id == R.id.Enter_Action){
+		if (id == R.id.menu_save_btn){
+			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

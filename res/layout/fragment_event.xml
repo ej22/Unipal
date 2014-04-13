@@ -7,7 +7,7 @@
         android:id="@+id/EnterName"
         style="@style/eventTextViewStyle"
         android:layout_marginTop="18dp"
-        android:text="Name/Topic" >
+        android:hint="Name/Topic" >
 
         <requestFocus />
     </EditText>
@@ -16,7 +16,7 @@
         android:id="@+id/EnterSubject"
         style="@style/eventTextViewStyle"
         android:layout_below="@id/EnterName"
-        android:text="Subject" >
+        android:hint="Subject" >
     </EditText>
 
     <Spinner
@@ -32,7 +32,7 @@
         android:id="@+id/EnterSubType"
         style="@style/eventTextViewStyle"
         android:layout_below="@id/spinnerEventType"
-        android:text="SubType" >
+        android:hint="SubType" >
     </EditText>
     
     <TextView
@@ -83,27 +83,14 @@
         android:layout_marginRight="18dp"
         android:background="@android:color/darker_gray" />
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/dueDateDialog"
-        android:layout_alignParentBottom="true"
-        android:text="Cancel" />
-    
-    <Button
-        android:id="@+id/enterButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/dueDateDialog"
-        android:layout_alignParentBottom="true"
-        android:text="Enter" />
 
     <EditText
         android:id="@+id/descriptionEditText"
+        android:gravity="top"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/cancelButton"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/view2"
         android:layout_alignLeft="@+id/view2"
         android:ems="10"
         android:inputType="textMultiLine" />
