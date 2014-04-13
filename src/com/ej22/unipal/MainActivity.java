@@ -114,7 +114,7 @@ public class MainActivity extends Activity {
 			frag = new TaskFragment();
 			break;
 		case 4:
-			frag = new ExamFragment();
+			frag = new EventFragment();
 			break;
 		default:
 			break;

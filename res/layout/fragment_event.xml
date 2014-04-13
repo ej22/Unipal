@@ -2,11 +2,63 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <TextView
+
+    <EditText
+        android:id="@+id/EnterName"
+        style="@style/eventTextViewStyle"
+        android:layout_marginTop="18dp"
+        android:text="Name/Topic" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/EnterSubject"
+        style="@style/eventTextViewStyle"
+        android:layout_below="@id/EnterName"
+        android:text="Subject" >
+    </EditText>
+
+    <Spinner
+        android:id="@+id/spinnerEventType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PLACEHOLDER"
-        />
+        android:layout_below="@id/EnterSubject"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:entries="@array/spinnerEventTypes" />
+
+    <EditText
+        android:id="@+id/EnterSubType"
+        style="@style/eventTextViewStyle"
+        android:layout_below="@id/spinnerEventType"
+        android:text="SubType" >
+    </EditText>
+    
+    <TextView
+        android:id="@+id/DueDateLabel"
+        style="@style/eventTextViewStyle"
+        android:layout_alignLeft="@+id/EnterSubType"
+        android:layout_below="@+id/EnterSubType"
+        android:layout_marginTop="10dp"
+        android:text="Due Date" />
+    
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/DueDateLabel"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/darker_gray" />
+
+    <Spinner
+        android:id="@+id/spinnerSelectDueDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view1" />
 
 </RelativeLayout>

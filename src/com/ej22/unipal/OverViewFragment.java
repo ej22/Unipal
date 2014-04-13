@@ -21,7 +21,6 @@ public class OverViewFragment extends Fragment {
 	Button btn;
 	
 	private int day, month, year;
-	private int datePickerID=999;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
@@ -42,9 +41,7 @@ public class OverViewFragment extends Fragment {
 					@Override
 					public void onDateSet(DatePicker picker, int selectedYear, int selectedMonth,
 							int selectedDay) {
-//						day = selectedDay;
-//						month=selectedMonth;
-//						year = selectedYear;
+
 						
 						Toast.makeText(getActivity(), "Date Set at: " + selectedDay + "th of " + selectedMonth + " " + selectedYear, Toast.LENGTH_LONG).show();
 						

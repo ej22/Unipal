@@ -24,5 +24,10 @@
     </array>
     
     <string name="desc_list_item_icon">Item Icon</string>
+    
+    <string-array name="spinnerEventTypes">
+        <item>Task</item>
+        <item>Exam</item>
+    </string-array>
 
 </resources>
