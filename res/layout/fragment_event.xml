@@ -37,8 +37,10 @@
     
     <TextView
         android:id="@+id/DueDateLabel"
-        style="@style/eventTextViewStyle"
-        android:layout_alignLeft="@+id/EnterSubType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
         android:layout_below="@+id/EnterSubType"
         android:layout_marginTop="10dp"
         android:text="Due Date" />
@@ -48,17 +50,64 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/DueDateLabel"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:background="@android:color/darker_gray" />
+    
+    <TextView
+        android:id="@+id/dueDateDialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view1"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/darker_gray" />
-
-    <Spinner
-        android:id="@+id/spinnerSelectDueDate"
+        android:text="test"
+        style="@android:style/Widget.Holo.Light.Spinner" />
+    
+    <TextView
+        android:id="@+id/DescLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/view1" />
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_below="@+id/dueDateDialog"
+        android:layout_marginTop="10dp"
+        android:text="Description" />
+    
+    <View
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/DescLabel"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:background="@android:color/darker_gray" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dueDateDialog"
+        android:layout_alignParentBottom="true"
+        android:text="Cancel" />
+    
+    <Button
+        android:id="@+id/enterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/dueDateDialog"
+        android:layout_alignParentBottom="true"
+        android:text="Enter" />
+
+    <EditText
+        android:id="@+id/descriptionEditText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cancelButton"
+        android:layout_alignLeft="@+id/view2"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+    
+    
 
 </RelativeLayout>

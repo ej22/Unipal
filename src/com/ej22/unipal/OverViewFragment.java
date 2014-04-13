@@ -41,7 +41,6 @@ public class OverViewFragment extends Fragment {
 					@Override
 					public void onDateSet(DatePicker picker, int selectedYear, int selectedMonth,
 							int selectedDay) {
-
 						
 						Toast.makeText(getActivity(), "Date Set at: " + selectedDay + "th of " + selectedMonth + " " + selectedYear, Toast.LENGTH_LONG).show();
 						
