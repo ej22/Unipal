@@ -7,4 +7,4 @@ Application developed by Stephen Hanley for the Mobile development software seme
 Dependancies
 =============
 
-[colorpicker](https://android.googlesource.com/platform/frameworks/opt/colorpicker/ "colorpicker) From Google
+[colorpicker](https://android.googlesource.com/platform/frameworks/opt/colorpicker/ "colorpicker") From Google
