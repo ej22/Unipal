@@ -36,13 +36,14 @@ public class MainActivity extends Activity {
 	private ArrayList<DrawerListItemSetup> drawerListItem;
 	private DrawerListItemAdapterSetup adapter;
 
-	DatabaseSetup db = new DatabaseSetup(this);
+	DatabaseSetup db;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		db.open();
+		db = new DatabaseSetup(this);
+		
 		
 		menuTitle = drawerTitle = getTitle();
 		

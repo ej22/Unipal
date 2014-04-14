@@ -1,5 +1,6 @@
 package com.ej22.unipal.model;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,42 +49,42 @@ public class DatabaseSetup {
 	//Create Table Statements
 	private static final String CREATE_MODULE_TABLE = 
 	"create table " + TABLE_MODULE + " (" + 
-	KEY_ID + " integer primary key autoincrement, " + 
-	KEY_NAME + "text not null, " +
-	KEY_ABBREVIATION + "text,  " + 
-	KEY_COLOUR + "text not null);";
+		KEY_ID + " integer primary key autoincrement, " + 
+		KEY_NAME + "text not null, " +
+		KEY_ABBREVIATION + "text,  " + 
+		KEY_COLOUR + "text not null);";
 	
 	private static final String CREATE_MOD_EV_TABLE =
 	"create table " + TABLE_MOD_EV + " (" +
-	KEY_ID + " integer primary key autoincrement, " + 
-	KEY_MOD_ID + "integer, " + 
-	KEY_GRADE_ID + "integer);";
+		KEY_ID + " integer primary key autoincrement, " + 
+		KEY_MOD_ID + "integer, " + 
+		KEY_GRADE_ID + "integer);";
 	
 	private static final String CREATE_EVENT_TABLE =
 	"create table " + TABLE_EVENT + " (" +
-	KEY_ID + " integer primary key autoincrement, " + 
-	KEY_NAME +  " text not null, " + 
-	KEY_SUBJECT + " text not null, " + 
-	KEY_TYPE + " text not null, " +
-	KEY_SUBTYPE + " text, " + 
-	KEY_DUE_DATE + " date not null, " + 
-	KEY_DESC + " text);";
+		KEY_ID + " integer primary key autoincrement, " + 
+		KEY_NAME +  " text not null, " + 
+		KEY_SUBJECT + " text not null, " + 
+		KEY_TYPE + " text not null, " +
+		KEY_SUBTYPE + " text, " + 
+		KEY_DUE_DATE + " text not null, " + 
+		KEY_DESC + " text);";
 	
 	private static final String CREATE_MOD_GRA_TABLE = 
 	"create table " + TABLE_MOD_GRA + "( " +
-	KEY_ID + " integer primary key autoincrement, " +
-	KEY_MOD_ID + "integer, " + 
-	KEY_GRADE_ID + "integer);";
+		KEY_ID + " integer primary key autoincrement, " +
+		KEY_MOD_ID + "integer, " + 
+		KEY_GRADE_ID + "integer);";
 	
 	private static final String CREATE_GRADE_TABLE =
 	"create table " + TABLE_GRADE + " (" +
-	KEY_ID + " integer primary key autoincrement, " + 
-	KEY_SUBJECT + " text not null, "  +
-	KEY_EVENT + " text not null, " +
-	KEY_GRADE + " integer not null, " + 
-	KEY_MAX_GRADE + " integer not null, "  + 
-	KEY_WEIGHT + " integer not null, " + 
-	KEY_TOTAL_PERCENT + " integer not null);";
+		KEY_ID + " integer primary key autoincrement, " + 
+		KEY_SUBJECT + " text not null, "  +
+		KEY_EVENT + " text not null, " +
+		KEY_GRADE + " integer not null, " + 
+		KEY_MAX_GRADE + " integer not null, "  + 
+		KEY_WEIGHT + " integer not null, " + 
+		KEY_TOTAL_PERCENT + " integer not null);";
 	
 	//Variables for use throughout the class
 	private final Context context;
@@ -129,6 +130,20 @@ public class DatabaseSetup {
 	public void close()
 	{
 		DBHelper.close();
+	}
+	
+	public long insertEvent(String name, String subject, String type, String subType, String date, String desc){
+		ContentValues initialValues = new ContentValues();
+		
+		initialValues.put(KEY_NAME, name);
+		initialValues.put(KEY_SUBJECT, subject);
+		initialValues.put(KEY_TYPE, type);
+		initialValues.put(KEY_SUBTYPE, subType);
+		initialValues.put(KEY_DUE_DATE, date);
+		initialValues.put(KEY_DESC, desc);
+		
+		
+		return db.insert(TABLE_EVENT, null, initialValues);
 	}
 	
 	
