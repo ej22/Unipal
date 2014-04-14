@@ -24,8 +24,6 @@ public class OverViewFragment extends Fragment {
 	
 	Button btn;
 	
-	int[] mColor;
-	
 	private int day, month, year;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -35,21 +33,20 @@ public class OverViewFragment extends Fragment {
 		month = c.get(Calendar.MONTH);
 		year = c.get(Calendar.YEAR);
 		
-		mColor = Utils.ColorUtils.colorChoice(getActivity());
-		
 		View rootView = inflater.inflate(R.layout.fragment_overview, container, false);
 		btn = (Button)rootView.findViewById(R.id.btn);
 		
+		//Start ColorPickerDialog
 		final ColorPickerDialog cpg = ColorPickerDialog.newInstance(
-	              R.string.color_picker_default_title, mColor, 0, 5,
-	              Utils.isTablet(getActivity())? ColorPickerDialog.SIZE_LARGE : ColorPickerDialog.SIZE_SMALL);
+	              R.string.color_picker_default_title, getColors(), 0, 3,
+	              ColorPickerDialog.SIZE_SMALL);
 		
 		cpg.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 			
 			@Override
 			public void onColorSelected(int color) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getActivity(), "COLOR: " + color, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "COLOR: " + String.format("#%06X", (0xFFFFFF & color)), Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -62,5 +59,16 @@ public class OverViewFragment extends Fragment {
 			
 		});
 		return rootView;
+	}
+	
+	public int[] getColors(){
+		String[]tempColors = getResources().getStringArray(R.array.default_color_choice_values);
+		int[] tempIntColors;
+		tempIntColors = new int[tempColors.length];
+		for (int i=0; i<tempColors.length;i++){
+			tempIntColors[i] = Color.parseColor(tempColors[i]);
+		}
+		return tempIntColors;
+		
 	}
 }
