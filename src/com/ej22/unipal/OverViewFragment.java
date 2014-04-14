@@ -15,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.util.*;
 
@@ -23,6 +24,7 @@ public class OverViewFragment extends Fragment {
 	public OverViewFragment(){};
 	
 	Button btn;
+	ImageView img;
 	
 	private int day, month, year;
 	
@@ -34,6 +36,7 @@ public class OverViewFragment extends Fragment {
 		year = c.get(Calendar.YEAR);
 		
 		View rootView = inflater.inflate(R.layout.fragment_overview, container, false);
+		img = (ImageView)rootView.findViewById(R.id.imageIC);
 		btn = (Button)rootView.findViewById(R.id.btn);
 		
 		//Start ColorPickerDialog
@@ -46,6 +49,7 @@ public class OverViewFragment extends Fragment {
 			@Override
 			public void onColorSelected(int color) {
 				// TODO Auto-generated method stub
+				img.setColorFilter(color);
 				Toast.makeText(getActivity(), "COLOR: " + String.format("#%06X", (0xFFFFFF & color)), Toast.LENGTH_SHORT).show();
 			}
 		});
