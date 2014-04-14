@@ -6,6 +6,8 @@ import com.ej22.unipal.model.DatabaseSetup;
 
 import android.app.DatePickerDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.database.SQLException;
 import android.os.Bundle;
@@ -39,6 +41,9 @@ public class EventFragment extends Fragment{
 		setHasOptionsMenu(true);
 		db = new DatabaseSetup(getActivity());
 		db.open();
+		
+		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActivity().getActionBar().setHomeButtonEnabled(false);
 		
 	}
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -92,9 +97,13 @@ public class EventFragment extends Fragment{
 		
 		int id = item.getItemId();
 		if (id == R.id.menu_cancel_btn) {
-			
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+			getActivity().getActionBar().setHomeButtonEnabled(true);
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+			fm.popBackStack();
+			ft.commit();
 			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
-			getActivity().finish();
 			return true;
 		}
 		if (id == R.id.menu_save_btn){
@@ -110,8 +119,6 @@ public class EventFragment extends Fragment{
 			}catch(SQLException e){
 				Log.e("InsertFail", "Failed to insert");
 			}
-			
-			
 			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
 			return true;
 		}
