@@ -52,6 +52,9 @@ public class ModuleFragment extends Fragment{
 		ArrayAdapter<Module> adapter = new ArrayAdapter<Module>(getActivity(),
 		        android.R.layout.simple_list_item_1, modules);
 		
+		modListView.addHeaderView(new View(getActivity()), null, false);
+		modListView.addFooterView(new View(getActivity()), null, false);
+		
 		modListView.setAdapter(adapter);
 	}
 	
