@@ -11,10 +11,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
+import com.ej22.unipal.adapter.ModuleCustomCursorAdapter;
 import com.ej22.unipal.model.DatabaseSetup;
 
 public class ModuleFragment extends Fragment{
@@ -66,10 +68,9 @@ public class ModuleFragment extends Fragment{
 		Cursor cursor = db.getAllModules();
 		
 		String[] fieldNames = new String[]{DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_ABBREVIATION, DatabaseSetup.KEY_COLOUR};
-		int[] fieldNameViewIds = new int[]{R.id.moduleName, R.id.moduleAbbre};
+		int[] fieldNameViewIds = new int[]{R.id.moduleName, R.id.moduleAbbre, R.id.moduleColorLine};
 		
-		SimpleCursorAdapter myAdapter = new SimpleCursorAdapter(getActivity(), R.layout.module_listview_row_layout,cursor,fieldNames,fieldNameViewIds);
-		
+		ModuleCustomCursorAdapter myAdapter = new ModuleCustomCursorAdapter(getActivity(), R.layout.module_listview_row_layout, cursor, fieldNames, fieldNameViewIds);		
 		ListView lv = (ListView)getActivity().findViewById(R.id.moduleListView);
 		
 		lv.addFooterView(new View(getActivity()), null, false);

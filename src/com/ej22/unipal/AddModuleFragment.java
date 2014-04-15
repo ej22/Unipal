@@ -36,6 +36,7 @@ public class AddModuleFragment extends Fragment {
 	EditText module, abbrev;
 	ImageView square;
 	String squareHEX;
+	int colorResult;
 	LinearLayout container;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -56,6 +57,7 @@ public class AddModuleFragment extends Fragment {
 			public void onColorSelected(int color) {
 				// TODO Auto-generated method stub
 				square.setColorFilter(color);
+				colorResult = color;
 				squareHEX = String.format("#%06X", (0xFFFFFF & color));
 				Toast.makeText(getActivity(), "COLOR: " + squareHEX, Toast.LENGTH_SHORT).show();
 			}
@@ -103,7 +105,7 @@ public class AddModuleFragment extends Fragment {
 		if (id == R.id.menu_save_btn){
 			String mod = module.getText().toString();
 			String abr = abbrev.getText().toString();
-			String color = squareHEX;
+			String color = "" + colorResult;
 			db.insertModule(mod, abr, color);
 //			db.close();
 			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();

@@ -57,7 +57,7 @@ public class DatabaseSetup {
 		KEY_ID + " integer primary key autoincrement, " + 
 		KEY_SUBJECT + " text not null, " +
 		KEY_ABBREVIATION + " text,  " + 
-		KEY_COLOUR + " text not null);";
+		KEY_COLOUR + " int not null);";
 	
 	private static final String CREATE_MOD_EV_TABLE =
 	"create table " + TABLE_MOD_EV + " (" +
