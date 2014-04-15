@@ -40,7 +40,7 @@ public class EventFragment extends Fragment{
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 		db = new DatabaseSetup(getActivity());
-		db.open();
+		//db.open();
 		
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActivity().getActionBar().setHomeButtonEnabled(false);

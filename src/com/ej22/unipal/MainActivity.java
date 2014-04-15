@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		db = new DatabaseSetup(this);
-		
+		db.open();
 		
 		menuTitle = drawerTitle = getTitle();
 		

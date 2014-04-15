@@ -146,5 +146,15 @@ public class DatabaseSetup {
 		return db.insert(TABLE_EVENT, null, initialValues);
 	}
 	
+	public long insertModule(String subject, String abbreviation, String color){
+		ContentValues initialValues = new ContentValues();
+		
+		initialValues.put(KEY_SUBJECT, subject);
+		initialValues.put(KEY_ABBREVIATION, abbreviation);
+		initialValues.put(KEY_COLOUR, color);
+		
+		return db.insert(TABLE_MODULE,null,initialValues);
+	}
+	
 	
 }
