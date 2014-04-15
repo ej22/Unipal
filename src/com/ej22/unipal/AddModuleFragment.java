@@ -103,8 +103,9 @@ public class AddModuleFragment extends Fragment {
 		if (id == R.id.menu_save_btn){
 			String mod = module.getText().toString();
 			String abr = abbrev.getText().toString();
-			db.insertModule(mod, abr, squareHEX);
-			db.close();
+			String color = squareHEX;
+			db.insertModule(mod, abr, color);
+//			db.close();
 			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
 			return true;
 		}

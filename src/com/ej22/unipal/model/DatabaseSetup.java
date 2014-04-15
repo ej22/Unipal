@@ -32,7 +32,7 @@ public class DatabaseSetup {
 	//Module Table column values
 	public static final String KEY_ABBREVIATION = "abbreviation";
 	public static final String KEY_COLOUR = "colour";
-	public static final String[] allModules = {KEY_ID, KEY_ABBREVIATION, KEY_COLOUR};
+	public static final String[] allModules = {KEY_ID, KEY_SUBJECT, KEY_ABBREVIATION, KEY_COLOUR};
 	
 	//Event Table Column Values
 	public static final String KEY_TYPE = "type";
@@ -55,9 +55,9 @@ public class DatabaseSetup {
 	private static final String CREATE_MODULE_TABLE = 
 	"create table " + TABLE_MODULE + " (" + 
 		KEY_ID + " integer primary key autoincrement, " + 
-		KEY_NAME + "text not null, " +
-		KEY_ABBREVIATION + "text,  " + 
-		KEY_COLOUR + "text not null);";
+		KEY_SUBJECT + " text not null, " +
+		KEY_ABBREVIATION + " text,  " + 
+		KEY_COLOUR + " text not null);";
 	
 	private static final String CREATE_MOD_EV_TABLE =
 	"create table " + TABLE_MOD_EV + " (" +
@@ -75,21 +75,21 @@ public class DatabaseSetup {
 		KEY_DUE_DATE + " text not null, " + 
 		KEY_DESC + " text);";
 	
-	private static final String CREATE_MOD_GRA_TABLE = 
-	"create table " + TABLE_MOD_GRA + "( " +
-		KEY_ID + " integer primary key autoincrement, " +
-		KEY_MOD_ID + "integer, " + 
-		KEY_GRADE_ID + "integer);";
-	
-	private static final String CREATE_GRADE_TABLE =
-	"create table " + TABLE_GRADE + " (" +
-		KEY_ID + " integer primary key autoincrement, " + 
-		KEY_SUBJECT + " text not null, "  +
-		KEY_EVENT + " text not null, " +
-		KEY_GRADE + " integer not null, " + 
-		KEY_MAX_GRADE + " integer not null, "  + 
-		KEY_WEIGHT + " integer not null, " + 
-		KEY_TOTAL_PERCENT + " integer not null);";
+//	private static final String CREATE_MOD_GRA_TABLE = 
+//	"create table " + TABLE_MOD_GRA + "( " +
+//		KEY_ID + " integer primary key autoincrement, " +
+//		KEY_MOD_ID + "integer, " + 
+//		KEY_GRADE_ID + "integer);";
+//	
+//	private static final String CREATE_GRADE_TABLE =
+//	"create table " + TABLE_GRADE + " (" +
+//		KEY_ID + " integer primary key autoincrement, " + 
+//		KEY_SUBJECT + " text not null, "  +
+//		KEY_EVENT + " text not null, " +
+//		KEY_GRADE + " integer not null, " + 
+//		KEY_MAX_GRADE + " integer not null, "  + 
+//		KEY_WEIGHT + " integer not null, " + 
+//		KEY_TOTAL_PERCENT + " integer not null);";
 	
 	//Variables for use throughout the class
 	private final Context context;
@@ -111,9 +111,9 @@ public class DatabaseSetup {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(CREATE_EVENT_TABLE);
-			db.execSQL(CREATE_GRADE_TABLE);
+			//db.execSQL(CREATE_GRADE_TABLE);
 			db.execSQL(CREATE_MOD_EV_TABLE);
-			db.execSQL(CREATE_MOD_GRA_TABLE);
+			//db.execSQL(CREATE_MOD_GRA_TABLE);
 			db.execSQL(CREATE_MODULE_TABLE);			
 		}
 

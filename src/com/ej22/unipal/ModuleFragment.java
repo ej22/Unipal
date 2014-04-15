@@ -1,5 +1,10 @@
 package com.ej22.unipal;
 
+import java.util.List;
+
+import com.ej22.unipal.model.DatabaseSetup;
+import com.ej22.unipal.model.Module;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -12,16 +17,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class ModuleFragment extends Fragment{
 
+	DatabaseSetup db;
+	ListView modListView;
 	public ModuleFragment(){};
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View rootView = inflater.inflate(R.layout.fragment_module, container, false);
-		
+		modListView = (ListView)rootView.findViewById(R.id.moduleListView);
 		return rootView;
 		
 	}
@@ -34,6 +43,16 @@ public class ModuleFragment extends Fragment{
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
+		
+		db = new DatabaseSetup(getActivity());
+		db.open();
+		
+		List<Module> modules = db.getAllModules();
+		
+		ArrayAdapter<Module> adapter = new ArrayAdapter<Module>(getActivity(),
+		        android.R.layout.simple_list_item_1, modules);
+		
+		modListView.setAdapter(adapter);
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
