@@ -1,25 +1,21 @@
 package com.ej22.unipal;
 
-import java.util.List;
-
-import com.ej22.unipal.model.DatabaseSetup;
-import com.ej22.unipal.model.Module;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.SQLException;
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
+
+import com.ej22.unipal.model.DatabaseSetup;
 
 public class ModuleFragment extends Fragment{
 
@@ -31,6 +27,7 @@ public class ModuleFragment extends Fragment{
 		
 		View rootView = inflater.inflate(R.layout.fragment_module, container, false);
 		modListView = (ListView)rootView.findViewById(R.id.moduleListView);
+		
 		return rootView;
 		
 	}
@@ -47,15 +44,7 @@ public class ModuleFragment extends Fragment{
 		db = new DatabaseSetup(getActivity());
 		db.open();
 		
-		List<Module> modules = db.getAllModules();
-		
-		ArrayAdapter<Module> adapter = new ArrayAdapter<Module>(getActivity(),
-		        android.R.layout.simple_list_item_1, modules);
-		
-		modListView.addHeaderView(new View(getActivity()), null, false);
-		modListView.addFooterView(new View(getActivity()), null, false);
-		
-		modListView.setAdapter(adapter);
+		populateListView();
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -73,4 +62,20 @@ public class ModuleFragment extends Fragment{
 		return super.onOptionsItemSelected(item);
 	}
 	
+	private void populateListView() {
+		Cursor cursor = db.getAllModules();
+		
+		String[] fieldNames = new String[]{DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_ABBREVIATION, DatabaseSetup.KEY_COLOUR};
+		int[] fieldNameViewIds = new int[]{R.id.moduleName, R.id.moduleAbbre};
+		
+		SimpleCursorAdapter myAdapter = new SimpleCursorAdapter(getActivity(), R.layout.module_listview_row_layout,cursor,fieldNames,fieldNameViewIds);
+		
+		ListView lv = (ListView)getActivity().findViewById(R.id.moduleListView);
+		
+		lv.addFooterView(new View(getActivity()), null, false);
+		lv.addHeaderView(new View(getActivity()), null, false);
+		
+		lv.setAdapter(myAdapter);
+	}
+
 }

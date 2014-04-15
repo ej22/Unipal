@@ -161,30 +161,13 @@ public class DatabaseSetup {
 		return db.insert(TABLE_MODULE,null,initialValues);
 	}
 	
-	public List<Module> getAllModules() {
-	    List<Module> modules = new ArrayList<Module>();
-
-	    Cursor cursor = db.query(TABLE_MODULE,
-	        allModules, null, null, null, null, null);
-
-	    cursor.moveToFirst();
-	    while (!cursor.isAfterLast()) {
-	    	Module module = cursorToModule(cursor);
-	    	modules.add(module);
-	      cursor.moveToNext();
-	    }
-	    // make sure to close the cursor
-	    cursor.close();
-	    return modules;
-	  }
-	
-	 private Module cursorToModule(Cursor cursor) {
-		 Module module = new Module();
-		    module.setId(cursor.getLong(0));
-		    module.setModule(cursor.getString(1));
-		    module.setAbbreviation(cursor.getString(2));
-		    module.setColor(cursor.getString(3));
-		    return module;
-		  }
-	
+	public Cursor getAllModules() {
+		String where = null;
+		Cursor c = 	db.query(true, TABLE_MODULE, allModules, 
+							where, null, null, null, null, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+		return c;
+	}	
 }

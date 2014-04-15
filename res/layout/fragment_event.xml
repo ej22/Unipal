@@ -46,7 +46,7 @@
         android:text="Due Date" />
     
     <View
-        android:id="@+id/view1"
+        android:id="@+id/moduleColorLine"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/DueDateLabel"
@@ -58,7 +58,7 @@
         android:id="@+id/dueDateDialog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/view1"
+        android:layout_below="@id/moduleColorLine"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:text="test"
