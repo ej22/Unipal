@@ -1,7 +1,11 @@
 package com.ej22.unipal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -28,6 +32,7 @@ public class DatabaseSetup {
 	//Module Table column values
 	public static final String KEY_ABBREVIATION = "abbreviation";
 	public static final String KEY_COLOUR = "colour";
+	public static final String[] allModules = {KEY_ID, KEY_ABBREVIATION, KEY_COLOUR};
 	
 	//Event Table Column Values
 	public static final String KEY_TYPE = "type";
@@ -156,5 +161,30 @@ public class DatabaseSetup {
 		return db.insert(TABLE_MODULE,null,initialValues);
 	}
 	
+	public List<Module> getAllModules() {
+	    List<Module> modules = new ArrayList<Module>();
+
+	    Cursor cursor = db.query(TABLE_MODULE,
+	        allModules, null, null, null, null, null);
+
+	    cursor.moveToFirst();
+	    while (!cursor.isAfterLast()) {
+	    	Module module = cursorToModule(cursor);
+	    	modules.add(module);
+	      cursor.moveToNext();
+	    }
+	    // make sure to close the cursor
+	    cursor.close();
+	    return modules;
+	  }
+	
+	 private Module cursorToModule(Cursor cursor) {
+		 Module module = new Module();
+		    module.setId(cursor.getLong(0));
+		    module.setModule(cursor.getString(1));
+		    module.setAbbreviation(cursor.getString(2));
+		    module.setColor(cursor.getString(3));
+		    return module;
+		  }
 	
 }
