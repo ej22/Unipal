@@ -26,12 +26,12 @@ public class TaskFragment extends Fragment{
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View rootView = inflater.inflate(R.layout.fragment_task, container, false);
-		populateTaskListView();
 		return rootView;
 	}
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
+		
 		db = new DatabaseSetup(getActivity());
 		db.open();
 		
