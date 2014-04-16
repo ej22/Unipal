@@ -40,15 +40,6 @@ public class DatabaseSetup {
 	public static final String KEY_DUE_DATE = "due_date";
 	public static final String KEY_DESC = "description";
 	
-	//Grade Table Column Values
-	public static final String KEY_EVENT = "event";
-	public static final String KEY_GRADE = "grade";
-	public static final String KEY_MAX_GRADE = "max_grade";
-	public static final String KEY_WEIGHT = "weight";
-	public static final String KEY_TOTAL_PERCENT = "total_percent";
-	
-	//MOD_EVENT and MOD_GRADE table column values
-	public static final String KEY_GRADE_ID = "grade_id";
 	public static final String KEY_EVENT_ID = "event_id";
 	
 	//Create Table Statements
@@ -63,7 +54,7 @@ public class DatabaseSetup {
 	"create table " + TABLE_MOD_EV + " (" +
 		KEY_ID + " integer primary key autoincrement, " + 
 		KEY_MOD_ID + "integer, " + 
-		KEY_GRADE_ID + "integer);";
+		KEY_EVENT_ID + "integer);";
 	
 	private static final String CREATE_EVENT_TABLE =
 	"create table " + TABLE_EVENT + " (" +
@@ -75,21 +66,6 @@ public class DatabaseSetup {
 		KEY_DUE_DATE + " text not null, " + 
 		KEY_DESC + " text);";
 	
-//	private static final String CREATE_MOD_GRA_TABLE = 
-//	"create table " + TABLE_MOD_GRA + "( " +
-//		KEY_ID + " integer primary key autoincrement, " +
-//		KEY_MOD_ID + "integer, " + 
-//		KEY_GRADE_ID + "integer);";
-//	
-//	private static final String CREATE_GRADE_TABLE =
-//	"create table " + TABLE_GRADE + " (" +
-//		KEY_ID + " integer primary key autoincrement, " + 
-//		KEY_SUBJECT + " text not null, "  +
-//		KEY_EVENT + " text not null, " +
-//		KEY_GRADE + " integer not null, " + 
-//		KEY_MAX_GRADE + " integer not null, "  + 
-//		KEY_WEIGHT + " integer not null, " + 
-//		KEY_TOTAL_PERCENT + " integer not null);";
 	
 	//Variables for use throughout the class
 	private final Context context;
@@ -111,9 +87,7 @@ public class DatabaseSetup {
 		@Override
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(CREATE_EVENT_TABLE);
-			//db.execSQL(CREATE_GRADE_TABLE);
 			db.execSQL(CREATE_MOD_EV_TABLE);
-			//db.execSQL(CREATE_MOD_GRA_TABLE);
 			db.execSQL(CREATE_MODULE_TABLE);			
 		}
 

@@ -111,12 +111,9 @@ public class MainActivity extends Activity {
 			frag = new ModuleFragment();
 			break;
 		case 2:
-			frag = new GradeFragment();
-			break;
-		case 3:
 			frag = new TaskFragment();
 			break;
-		case 4:
+		case 3:
 			frag = new ExamFragment();
 			break;
 		default:
