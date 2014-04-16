@@ -64,15 +64,15 @@ public class TaskFragment extends Fragment{
 	}
 	
 	private void populateTaskListView() {
-		Cursor cursor = db.getAllTasks();
+		Cursor cursorTask = db.getAllTasks();
 		
-		getActivity().startManagingCursor(cursor);
+		getActivity().startManagingCursor(cursorTask);
 		
 		//Fix This Tomorrow
 		String[] fieldNames = new String[]{DatabaseSetup.KEY_DUE_DATE, DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_NAME};
 		int[] fieldNameViewIds = new int[]{R.id.dateView, R.id.SubjectName, R.id.TaskName};
 		
-		ExamTaskCustomCursorAdapter myAdapter = new ExamTaskCustomCursorAdapter(getActivity(), R.layout.exam_task_listview_row_layout, cursor, fieldNames, fieldNameViewIds);		
+		ExamTaskCustomCursorAdapter myAdapter = new ExamTaskCustomCursorAdapter(getActivity(), R.layout.exam_task_listview_row_layout, cursorTask, fieldNames, fieldNameViewIds);		
 		ListView lv = (ListView)getActivity().findViewById(R.id.taskListView);
 		
 		lv.addFooterView(new View(getActivity()), null, false);

@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -128,11 +130,23 @@ public class EventFragment extends Fragment{
 				String s5 = dueDate.getText().toString();
 				String s6 = desc.getText().toString();
 				
-				db.insertEvent(s1, s2, s3, s4, s5, s6);
+				if(s3.equals("Task")){
+					db.insertTask(s1, s2, s3, s4, s5, s6);
+				}
+				else if (s3.equals("Exam")){
+					db.insertExam(s1, s2, s3, s4, s5, s6);
+				}
+				
 			}catch(SQLException e){
 				Log.e("InsertFail", "Failed to insert");
 			}
 			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+			
+			//Code referenced from: http://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard/15587937#15587937
+			((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))
+		    .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+			//reference complete
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

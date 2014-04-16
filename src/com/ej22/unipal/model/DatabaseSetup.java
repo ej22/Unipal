@@ -19,7 +19,8 @@ public class DatabaseSetup {
 	//Table Names
 	private static final String TABLE_MODULE = "Module";
 	private static final String TABLE_MOD_EV = "Mod_Events";
-	private static final String TABLE_EVENT = "Events";
+	private static final String TABLE_EXAM = "Exam";
+	private static final String TABLE_TASK = "Task";
 
 	//Common columns across two or more tables
 	public static final String KEY_ID = "_id";
@@ -55,8 +56,8 @@ public class DatabaseSetup {
 		KEY_MOD_ID + "integer, " + 
 		KEY_EVENT_ID + "integer);";
 	
-	private static final String CREATE_EVENT_TABLE =
-	"create table " + TABLE_EVENT + " (" +
+	private static final String CREATE_TASK_TABLE =
+	"create table " + TABLE_EXAM + " (" +
 		KEY_ID + " integer primary key autoincrement, " + 
 		KEY_NAME +  " text not null, " + 
 		KEY_SUBJECT + " text not null, " + 
@@ -64,6 +65,16 @@ public class DatabaseSetup {
 		KEY_SUBTYPE + " text, " + 
 		KEY_DUE_DATE + " text not null, " + 
 		KEY_DESC + " text);";
+	
+	private static final String CREATE_EXAM_TABLE =
+			"create table " + TABLE_TASK + " (" +
+				KEY_ID + " integer primary key autoincrement, " + 
+				KEY_NAME +  " text not null, " + 
+				KEY_SUBJECT + " text not null, " + 
+				KEY_TYPE + " text not null, " +
+				KEY_SUBTYPE + " text, " + 
+				KEY_DUE_DATE + " text not null, " + 
+				KEY_DESC + " text);";
 	
 	
 	//Variables for use throughout the class
@@ -85,7 +96,8 @@ public class DatabaseSetup {
 
 		@Override
 		public void onCreate(SQLiteDatabase db) {
-			db.execSQL(CREATE_EVENT_TABLE);
+			db.execSQL(CREATE_EXAM_TABLE);
+			db.execSQL(CREATE_TASK_TABLE);
 			db.execSQL(CREATE_MOD_EV_TABLE);
 			db.execSQL(CREATE_MODULE_TABLE);			
 		}
@@ -110,7 +122,7 @@ public class DatabaseSetup {
 		DBHelper.close();
 	}
 	
-	public long insertEvent(String name, String subject, String type, String subType, String date, String desc){
+	public long insertExam(String name, String subject, String type, String subType, String date, String desc){
 		ContentValues initialValues = new ContentValues();
 		
 		initialValues.put(KEY_NAME, name);
@@ -121,7 +133,21 @@ public class DatabaseSetup {
 		initialValues.put(KEY_DESC, desc);
 		
 		
-		return db.insert(TABLE_EVENT, null, initialValues);
+		return db.insert(TABLE_EXAM, null, initialValues);
+	}
+	
+	public long insertTask(String name, String subject, String type, String subType, String date, String desc){
+		ContentValues initialValues = new ContentValues();
+		
+		initialValues.put(KEY_NAME, name);
+		initialValues.put(KEY_SUBJECT, subject);
+		initialValues.put(KEY_TYPE, type);
+		initialValues.put(KEY_SUBTYPE, subType);
+		initialValues.put(KEY_DUE_DATE, date);
+		initialValues.put(KEY_DESC, desc);
+		
+		
+		return db.insert(TABLE_TASK, null, initialValues);
 	}
 	
 	public long insertModule(String subject, String abbreviation, String color){
@@ -145,21 +171,19 @@ public class DatabaseSetup {
 	}	
 	
 	public Cursor getAllTasks() {
-		String where = KEY_TYPE + " = 'Task'";
-		Cursor c = db.query(true, TABLE_EVENT, allEvents,
+		Cursor cTask = db.query(true, TABLE_TASK, allEvents,
 				null, null,null,null,null,null);
 		
-		if (c != null){
-			c.moveToFirst();
+		if (cTask != null){
+			cTask.moveToFirst();
 		}
 		
-		return c;
+		return cTask;
 	}
 	
 	public Cursor getAllExams() {
-		String where = KEY_TYPE + " = 'Exam'";
-		Cursor c = 	db.query(true, TABLE_EVENT, allEvents, 
-							where, null, null, null, null, null);
+		Cursor c = 	db.query(true, TABLE_EXAM, allEvents, 
+							null, null, null, null, null, null);
 		if (c != null) {
 			c.moveToFirst();
 		}
