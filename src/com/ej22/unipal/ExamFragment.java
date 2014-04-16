@@ -1,8 +1,13 @@
 package com.ej22.unipal;
 
+import com.ej22.unipal.adapter.ExamTaskCustomCursorAdapter;
+import com.ej22.unipal.adapter.ModuleCustomCursorAdapter;
+import com.ej22.unipal.model.DatabaseSetup;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,19 +15,30 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class ExamFragment extends Fragment{
 
+	ListView eventListView;
+	DatabaseSetup db;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		View rootView = inflater.inflate(R.layout.fragment_exam, container, false);
+
 		return rootView;
 	}
 	
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
+		
+		db = new DatabaseSetup(getActivity());
+		db.open();
+		
+		populateEventListView();
 	}
+
+
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
 		inflater.inflate(R.menu.add_event_menu, menu);
 		return;
@@ -47,5 +63,24 @@ public class ExamFragment extends Fragment{
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	private void populateEventListView() {
+		Cursor cursor = db.getAllExams();
+		
+		getActivity().startManagingCursor(cursor);
+		
+		String[] fieldNames = new String[]{DatabaseSetup.KEY_DUE_DATE, DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_NAME};
+		int[] fieldNameViewIds = new int[]{R.id.dateView, R.id.SubjectName, R.id.TaskName};
+		
+		ExamTaskCustomCursorAdapter myAdapter = new ExamTaskCustomCursorAdapter(getActivity(), R.layout.exam_task_listview_row_layout, cursor, fieldNames, fieldNameViewIds);		
+		ListView lv = (ListView)getActivity().findViewById(R.id.examListView);
+		
+		lv.addFooterView(new View(getActivity()), null, false);
+		lv.addHeaderView(new View(getActivity()), null, false);
+		
+		lv.setAdapter(myAdapter);
+		
 	}
 }

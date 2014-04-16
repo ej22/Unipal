@@ -28,7 +28,6 @@ public class ModuleFragment extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View rootView = inflater.inflate(R.layout.fragment_module, container, false);
-		modListView = (ListView)rootView.findViewById(R.id.moduleListView);
 		
 		return rootView;
 		
@@ -66,6 +65,8 @@ public class ModuleFragment extends Fragment{
 	
 	private void populateListView() {
 		Cursor cursor = db.getAllModules();
+		
+		getActivity().startManagingCursor(cursor);
 		
 		String[] fieldNames = new String[]{DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_ABBREVIATION, DatabaseSetup.KEY_COLOUR};
 		int[] fieldNameViewIds = new int[]{R.id.moduleName, R.id.moduleAbbre, R.id.moduleColorLine};

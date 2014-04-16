@@ -20,9 +20,7 @@ public class DatabaseSetup {
 	private static final String TABLE_MODULE = "Module";
 	private static final String TABLE_MOD_EV = "Mod_Events";
 	private static final String TABLE_EVENT = "Events";
-	private static final String TABLE_MOD_GRA = "Mod_Grade";
-	private static final String TABLE_GRADE = "Grade";
-	
+
 	//Common columns across two or more tables
 	public static final String KEY_ID = "_id";
 	public static final String KEY_NAME = "name";
@@ -39,6 +37,7 @@ public class DatabaseSetup {
 	public static final String KEY_SUBTYPE = "subtype";
 	public static final String KEY_DUE_DATE = "due_date";
 	public static final String KEY_DESC = "description";
+	public static final String[] allEvents = {KEY_ID,KEY_NAME,KEY_SUBJECT, KEY_TYPE, KEY_DUE_DATE};
 	
 	public static final String KEY_EVENT_ID = "event_id";
 	
@@ -144,4 +143,27 @@ public class DatabaseSetup {
 		}
 		return c;
 	}	
+	
+	public Cursor getAllTasks() {
+		String where = KEY_TYPE + " = 'Task'";
+		Cursor c = db.query(true, TABLE_EVENT, allEvents,
+				null, null,null,null,null,null);
+		
+		if (c != null){
+			c.moveToFirst();
+		}
+		
+		return c;
+	}
+	
+	public Cursor getAllExams() {
+		String where = KEY_TYPE + " = 'Exam'";
+		Cursor c = 	db.query(true, TABLE_EVENT, allEvents, 
+							where, null, null, null, null, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+		return c;
+	}
+	
 }
