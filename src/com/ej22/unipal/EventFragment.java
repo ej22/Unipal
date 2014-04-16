@@ -2,13 +2,11 @@ package com.ej22.unipal;
 
 import java.util.Calendar;
 
-import com.ej22.unipal.model.DatabaseSetup;
-
 import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,13 +15,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.ej22.unipal.model.DatabaseSetup;
 
 public class EventFragment extends Fragment{
 
@@ -35,12 +36,17 @@ public class EventFragment extends Fragment{
 	EditText name, subject, subtype, desc;
 	Spinner eventType;
 	java.sql.Date date;
+	int selection;
 	
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 		db = new DatabaseSetup(getActivity());
 		//db.open();
+		
+		
+		
+		Toast.makeText(getActivity(), "" + selection, Toast.LENGTH_SHORT).show();
 		
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActivity().getActionBar().setHomeButtonEnabled(false);
@@ -50,11 +56,18 @@ public class EventFragment extends Fragment{
 		
 		View rootView = inflater.inflate(R.layout.fragment_event, container, false);
 		
+		Bundle extras = getArguments();
+		selection = extras.getInt("spinner selection");
+		
 		name = (EditText)rootView.findViewById(R.id.EnterName);
 		subject = (EditText)rootView.findViewById(R.id.EnterSubject);
 		subtype = (EditText)rootView.findViewById(R.id.EnterSubType);
 		desc = (EditText)rootView.findViewById(R.id.descriptionEditText);
 		eventType = (Spinner)rootView.findViewById(R.id.spinnerEventType);
+		
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinnerEventTypes, android.R.layout.simple_spinner_item);
+		eventType.setAdapter(adapter);
+		eventType.setSelection(selection);
 		
 		final Calendar c = Calendar.getInstance();
 		day = c.get(Calendar.DATE);

@@ -33,10 +33,15 @@ public class ExamFragment extends Fragment{
 		
 		int id = item.getItemId();
 		if (id == R.id.add_event_btn){
+			EventFragment frag = new EventFragment();
+			Bundle extra = new Bundle();
+			extra.putInt("spinner selection", 1);
+			frag.setArguments(extra);
+			
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.addToBackStack(null);
-			ft.replace(R.id.frag_container, new EventFragment());
+			ft.replace(R.id.frag_container, frag);
 			ft.commit();
 			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
 			return true;

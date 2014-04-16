@@ -26,7 +26,7 @@
         android:layout_below="@id/EnterSubject"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:entries="@array/spinnerEventTypes" />
+         />
 
     <EditText
         android:id="@+id/EnterSubType"
