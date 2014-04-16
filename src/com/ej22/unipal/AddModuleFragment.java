@@ -1,18 +1,11 @@
 package com.ej22.unipal;
 
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerSwatch;
-import com.ej22.unipal.model.DatabaseSetup;
-
-import android.app.Dialog;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.database.SQLException;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,13 +13,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.Toast;
-import android.widget.NumberPicker.OnValueChangeListener;
+
+import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.ColorPickerSwatch;
+import com.ej22.unipal.model.DatabaseSetup;
 
 public class AddModuleFragment extends Fragment {
 	
@@ -46,6 +41,8 @@ public class AddModuleFragment extends Fragment {
 		module = (EditText)rootView.findViewById(R.id.module_);
 		abbrev = (EditText)rootView.findViewById(R.id.abbreviation_);
 		square = (ImageView)rootView.findViewById(R.id.squareImg);
+		
+		square.setColorFilter(Color.parseColor("#33b5e5"));
 		
 		final ColorPickerDialog cpg = ColorPickerDialog.newInstance(
 	              R.string.color_picker_default_title, getColors(), 0, 3,
@@ -107,8 +104,18 @@ public class AddModuleFragment extends Fragment {
 			String abr = abbrev.getText().toString();
 			String color = "" + colorResult;
 			db.insertModule(mod, abr, color);
-//			db.close();
 			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+			
+			//Code referenced from: http://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard/15587937#15587937
+			((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))
+		    .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+			//reference complete
+			
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+			fm.popBackStack();
+			ft.commit();
+			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

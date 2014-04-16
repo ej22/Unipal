@@ -9,15 +9,19 @@
         android:id="@+id/module_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/squareImg"
-        android:hint="Module"/>
+        android:hint="Module">
+        <requestFocus />
+        </EditText>
     
     <EditText
         android:id="@+id/abbreviation_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:imeOptions="actionDone"
         android:layout_toLeftOf="@+id/squareImg"
         android:layout_below="@id/module_"
         android:hint="Abbreviation" />
