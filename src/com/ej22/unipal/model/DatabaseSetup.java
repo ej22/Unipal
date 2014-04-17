@@ -122,6 +122,8 @@ public class DatabaseSetup {
 		DBHelper.close();
 	}
 	
+	//----------------------------INSERT-------------------------------------//
+	
 	public long insertExam(String name, String subject, String type, String subType, String date, String desc){
 		ContentValues initialValues = new ContentValues();
 		
@@ -160,6 +162,8 @@ public class DatabaseSetup {
 		return db.insert(TABLE_MODULE,null,initialValues);
 	}
 	
+	//----------------------------GET-------------------------------------//
+	
 	public Cursor getAllModules() {
 		String where = null;
 		Cursor c = 	db.query(true, TABLE_MODULE, allModules, 
@@ -190,6 +194,36 @@ public class DatabaseSetup {
 		return c;
 	}
 	
+	public List<String> getMouduleTitles(){
+		List<String> titles = new ArrayList<String>();
+		
+		String query = "Select " + KEY_SUBJECT + " from " + TABLE_MODULE;
+		Cursor cursor = db.rawQuery(query, null);
+		
+		if(cursor.moveToFirst()){
+			do{
+				titles.add(cursor.getString(0));
+			}while(cursor.moveToNext());
+			cursor.close();
+		}
+		return titles;
+	}
+	
+	public Cursor getModuleDetails (long id)
+	{
+		String where = KEY_ID + "=" + id;
+		Cursor cursor = db.query(true, TABLE_MODULE, allModules,
+				where,null,null,null,null,null);
+		
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+	
+	//----------------------------DELETE-------------------------------------//
+	
 	public boolean deleteModule(long id){
 		return db.delete(TABLE_MODULE, KEY_ID + "=" + id, null) >0;
 	}
@@ -202,22 +236,13 @@ public class DatabaseSetup {
 		return db.delete(TABLE_EXAM, KEY_ID + "=" + id, null) >0;
 	}
 	
-	public List<String> getMouduleTitles(){
-		List<String> titles = new ArrayList<String>();
-		
-		String query = "Select " + KEY_SUBJECT + " from " + TABLE_MODULE;
-		Cursor cursor = db.rawQuery(query, null);
-		
-		if(cursor.moveToFirst()){
-			do{
-				titles.add(cursor.getString(0));
-			}while(cursor.moveToNext());
-			
-			cursor.close();
-			
-		}
-		
-		return titles;
-	}
+	//----------------------------UPDATE-------------------------------------//
 	
+	public boolean updateModule(long id, String subject, String abbreviation, String color){
+		ContentValues args = new ContentValues();
+		args.put(KEY_SUBJECT, subject);
+		args.put(KEY_ABBREVIATION, abbreviation);
+		args.put(KEY_COLOUR, color);
+		return db.update(TABLE_MODULE, args, KEY_ID + "=" + id, null)>0;
+	}
 }

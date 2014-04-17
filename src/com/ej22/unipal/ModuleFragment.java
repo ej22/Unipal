@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -95,6 +96,31 @@ public class ModuleFragment extends Fragment{
 					Toast.makeText(getActivity(), "Delete Unsuccesful", Toast.LENGTH_SHORT).show();
 				}
 				return temp;
+			}
+			
+		});
+		
+		lv.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View v, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				EditModuleFragment frag = new EditModuleFragment();
+				Cursor c = db.getModuleDetails(id);
+				Bundle modInfo = new Bundle();
+				modInfo.putLong("_id", c.getLong(0));
+				modInfo.putString("subject", c.getString(1));
+				modInfo.putString("abbrev", c.getString(2));
+				modInfo.putInt("color", c.getInt(3));
+				frag.setArguments(modInfo);
+				
+				FragmentManager fm = getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				ft.replace(R.id.frag_container, frag);
+				ft.commit();
+				
 			}
 			
 		});

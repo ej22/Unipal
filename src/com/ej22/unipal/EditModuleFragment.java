@@ -1,5 +1,9 @@
 package com.ej22.unipal;
 
+import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.ColorPickerSwatch;
+import com.ej22.unipal.model.DatabaseSetup;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -11,44 +15,45 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerSwatch;
-import com.ej22.unipal.model.DatabaseSetup;
-
-public class AddModuleFragment extends Fragment {
-	
-	public AddModuleFragment(){};
-	
+public class EditModuleFragment extends Fragment{
 	DatabaseSetup db;
 	EditText module, abbrev;
 	ImageView square;
-	String squareHEX;
-	int colorResult;
+	String squareHEX, subject, bundleAbbrev;
+	int colorResult, bundleColor;
 	LinearLayout container;
+	Long rowId;
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
-		View rootView = inflater.inflate(R.layout.module_entry_container, container, false);		
+		View rootView = inflater.inflate(R.layout.module_entry_container, container, false);
+		
+		Bundle info = getArguments();
+		rowId = info.getLong("_id");
+		subject = info.getString("subject");
+		bundleAbbrev = info.getString("abbrev");
+		bundleColor = info.getInt("color");
 		
 		module = (EditText)rootView.findViewById(R.id.module_);
 		abbrev = (EditText)rootView.findViewById(R.id.abbreviation_);
 		square = (ImageView)rootView.findViewById(R.id.squareImg);
 		
-		square.setColorFilter(Color.parseColor("#33b5e5"));
+		square.setColorFilter(bundleColor);
+		
+		module.setText(subject);
+		abbrev.setText(bundleAbbrev);
 		
 		final ColorPickerDialog cpg = ColorPickerDialog.newInstance(
 	              R.string.color_picker_default_title, getColors(), 0, 3,
 	              ColorPickerDialog.SIZE_SMALL);
-		
-		cpg.setSelectedColor(-13388315);
 		
 		cpg.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 			
@@ -83,7 +88,7 @@ public class AddModuleFragment extends Fragment {
 	}
 	
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-		inflater.inflate(R.menu.event_menu, menu);
+		inflater.inflate(R.menu.update_menu, menu);
 		return;
 	}
 	
@@ -101,13 +106,13 @@ public class AddModuleFragment extends Fragment {
 			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
-		if (id == R.id.menu_save_btn){
+		if (id == R.id.menu_update_btn){
 			String mod = module.getText().toString();
 			String abr = abbrev.getText().toString();
 			
 			String color = "" + colorResult;
-			db.insertModule(mod, abr, color);
-			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+			db.updateModule(rowId, mod, abr, color);
+			Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
 			
 			//Code referenced from: http://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard/15587937#15587937
 			((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))
@@ -116,8 +121,11 @@ public class AddModuleFragment extends Fragment {
 			
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-			fm.popBackStack();
+			
+			ft.replace(R.id.frag_container, new ModuleFragment());
 			ft.commit();
+			
+			
 			
 			return true;
 		}
@@ -134,5 +142,4 @@ public class AddModuleFragment extends Fragment {
 		return tempIntColors;
 		
 	}
-
 }
