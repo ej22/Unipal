@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -81,6 +83,26 @@ public class ExamFragment extends Fragment{
 		lv.addHeaderView(new View(getActivity()), null, false);
 		
 		lv.setAdapter(myAdapter);
+		
+		lv.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View v, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				EventFragment frag = new EventFragment();
+				Bundle editInfo = new Bundle();
+				editInfo.putLong("_id", id);
+				frag.setArguments(editInfo);
+				
+				FragmentManager fm = getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				ft.replace(R.id.frag_container, frag);
+				ft.commit();
+			}
+			
+		});
 		
 	}
 }

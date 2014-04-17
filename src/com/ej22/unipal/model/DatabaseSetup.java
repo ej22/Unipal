@@ -182,11 +182,24 @@ public class DatabaseSetup {
 	}
 	
 	public Cursor getAllExams() {
-		Cursor c = 	db.rawQuery("select Exam._id, Exam.due_date, Exam.subject, Exam.name, Module.colour from Exam inner join Module where Exam.subject = Module.subject;",null);
+		Cursor c = 	db.query(true, TABLE_EXAM, allEvents,
+				null, null,null,null,null,null);
 		if (c != null) {
 			c.moveToFirst();
 		}
 		return c;
+	}
+	
+	public boolean deleteModule(long id){
+		return db.delete(TABLE_MODULE, KEY_ID + "=" + id, null) >0;
+	}
+	
+	public boolean deleteTask(long id){
+		return db.delete(TABLE_TASK, KEY_ID + "=" + id, null) >0;
+	}
+	
+	public boolean deleteExam(long id){
+		return db.delete(TABLE_EXAM, KEY_ID + "=" + id, null) >0;
 	}
 	
 	public List<String> getMouduleTitles(){
