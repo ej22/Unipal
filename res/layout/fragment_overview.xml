@@ -2,18 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    >
+    android:orientation="vertical" >
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" 
-    android:id="@+id/getCountLayout"
-    android:background="@drawable/card_bg_r4"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-	android:layout_marginRight="@dimen/activity_horizontal_margin"
-    >
+        android:id="@+id/getCountLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@drawable/card_bg_r4"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/CurrentModules"
@@ -50,8 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/CurrentNumExam"
             android:layout_below="@+id/CurrentNumExam"
-            android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:text="Current No. of Tasks:"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -72,28 +70,27 @@
             android:layout_alignBottom="@+id/CurrentModules"
             android:layout_alignParentRight="true"
             android:text="TextView" />
-
-        </RelativeLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/aboutText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-            android:background="@drawable/card_bg_r4"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-	android:layout_marginRight="@dimen/activity_horizontal_margin">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:background="@drawable/card_bg_r4" >
 
         <TextView
             android:id="@+id/about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop = "16dp"
-            android:layout_marginBottom="16dp"
             android:layout_alignParentTop="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:text="This app was created for the Mobile Software Development Module in Semester 2 of Year 3 in DIT. \n\n Extra Features Include:
             \n Navigational Drawer \n Fragments \n Action Bar functions \n Fragment BackStacking and Pop Stacking \n" />
-
     </RelativeLayout>
 "
+
 </LinearLayout>

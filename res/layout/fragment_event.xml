@@ -15,12 +15,11 @@
 
     <Spinner
         android:id="@+id/EnterSubject"
-        android:layout_below="@id/EnterName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/EnterName"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-         >
+        android:layout_marginRight="16dp" >
     </Spinner>
 
     <Spinner
@@ -29,8 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/EnterSubject"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-         />
+        android:layout_marginRight="16dp" />
 
     <EditText
         android:id="@+id/EnterSubType"
@@ -38,19 +36,18 @@
         android:layout_below="@id/spinnerEventType"
         android:hint="SubType"
         android:imeOptions="actionNext" >
-
     </EditText>
-    
+
     <TextView
         android:id="@+id/DueDateLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/EnterSubType"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:layout_below="@+id/EnterSubType"
         android:layout_marginTop="10dp"
         android:text="Due Date" />
-    
+
     <View
         android:id="@+id/moduleColorLine"
         android:layout_width="fill_parent"
@@ -59,7 +56,7 @@
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:background="@android:color/darker_gray" />
-    
+
     <TextView
         android:id="@+id/dueDateDialog"
         style="@android:style/Widget.Holo.Light.Spinner"
@@ -70,17 +67,17 @@
         android:layout_marginRight="16dp"
         android:imeOptions="actionNext"
         android:text="test" />
-    
+
     <TextView
         android:id="@+id/DescLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/dueDateDialog"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:layout_below="@+id/dueDateDialog"
         android:layout_marginTop="10dp"
         android:text="Description" />
-    
+
     <View
         android:id="@+id/view2"
         android:layout_width="fill_parent"

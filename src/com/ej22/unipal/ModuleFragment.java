@@ -18,39 +18,46 @@ import android.widget.ListView;
 import com.ej22.unipal.adapter.ModuleCustomCursorAdapter;
 import com.ej22.unipal.model.DatabaseSetup;
 
-public class ModuleFragment extends Fragment{
+public class ModuleFragment extends Fragment
+{
 
 	DatabaseSetup db;
 	ListView modListView;
-	public ModuleFragment(){};
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		
-		View rootView = inflater.inflate(R.layout.fragment_module, container, false);
-		
+
+	public ModuleFragment()
+	{
+	};
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.fragment_module, container,
+				false);
+
 		return rootView;
-		
+
 	}
-	
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.add_event_menu, menu);
 		return;
 	}
-	
-	public void onActivityCreated(Bundle savedInstanceState){
+
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-		
+
 		db = new DatabaseSetup(getActivity());
 		db.open();
-		
+
 		populateListView();
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		int id = item.getItemId();
-		if (id == R.id.add_event_btn) {
+		if (id == R.id.add_event_btn)
+		{
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.addToBackStack(null);
@@ -60,24 +67,30 @@ public class ModuleFragment extends Fragment{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void populateListView() {
 		Cursor cursor = db.getAllModules();
-		
+
 		getActivity().startManagingCursor(cursor);
-		
-		String[] fieldNames = new String[]{DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_ABBREVIATION, DatabaseSetup.KEY_COLOUR};
-		int[] fieldNameViewIds = new int[]{R.id.moduleName, R.id.moduleAbbre, R.id.moduleColorLine};
-		
-		ModuleCustomCursorAdapter myAdapter = new ModuleCustomCursorAdapter(getActivity(), R.layout.module_listview_row_layout, cursor, fieldNames, fieldNameViewIds);		
-		ListView lv = (ListView)getActivity().findViewById(R.id.moduleListView);
-		
+
+		String[] fieldNames = new String[] { DatabaseSetup.KEY_SUBJECT,
+				DatabaseSetup.KEY_ABBREVIATION, DatabaseSetup.KEY_COLOUR };
+		int[] fieldNameViewIds = new int[] { R.id.moduleName, R.id.moduleAbbre,
+				R.id.moduleColorLine };
+
+		ModuleCustomCursorAdapter myAdapter = new ModuleCustomCursorAdapter(
+				getActivity(), R.layout.module_listview_row_layout, cursor,
+				fieldNames, fieldNameViewIds);
+		ListView lv = (ListView) getActivity()
+				.findViewById(R.id.moduleListView);
+
 		lv.addFooterView(new View(getActivity()), null, false);
 		lv.addHeaderView(new View(getActivity()), null, false);
-		
+
 		lv.setAdapter(myAdapter);
-		
-		lv.setOnItemClickListener(new OnItemClickListener(){
+
+		lv.setOnItemClickListener(new OnItemClickListener()
+		{
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View v, int pos,
@@ -91,15 +104,15 @@ public class ModuleFragment extends Fragment{
 				modInfo.putString("abbrev", c.getString(2));
 				modInfo.putInt("color", c.getInt(3));
 				frag.setArguments(modInfo);
-				
+
 				FragmentManager fm = getFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 				ft.addToBackStack(null);
 				ft.replace(R.id.frag_container, frag);
 				ft.commit();
-				
+
 			}
-			
+
 		});
 	}
 

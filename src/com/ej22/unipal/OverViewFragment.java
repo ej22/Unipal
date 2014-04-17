@@ -10,24 +10,30 @@ import android.widget.TextView;
 
 import com.ej22.unipal.model.DatabaseSetup;
 
-public class OverViewFragment extends Fragment {
-	
-	public OverViewFragment(){};
-	
+public class OverViewFragment extends Fragment
+{
+
+	public OverViewFragment()
+	{
+	};
+
 	TextView mod, exam, task;
 	DatabaseSetup db;
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-				
-		View rootView = inflater.inflate(R.layout.fragment_overview, container, false);
-		
-		mod = (TextView)rootView.findViewById(R.id.getModCount);
-		exam = (TextView)rootView.findViewById(R.id.getExamCount);
-		task = (TextView)rootView.findViewById(R.id.getTaskCount);
-		
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+
+		View rootView = inflater.inflate(R.layout.fragment_overview, container,
+				false);
+
+		mod = (TextView) rootView.findViewById(R.id.getModCount);
+		exam = (TextView) rootView.findViewById(R.id.getExamCount);
+		task = (TextView) rootView.findViewById(R.id.getTaskCount);
+
 		return rootView;
 	}
-	
-	public void onActivityCreated(Bundle savedInstanceState){
+
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		db = new DatabaseSetup(getActivity());
 		db.open();
@@ -38,6 +44,5 @@ public class OverViewFragment extends Fragment {
 		modC = db.getAllTasks();
 		task.setText("" + modC.getCount());
 	}
-	
-	
+
 }

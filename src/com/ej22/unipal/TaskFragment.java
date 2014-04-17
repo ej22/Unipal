@@ -18,39 +18,44 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class TaskFragment extends Fragment{
+public class TaskFragment extends Fragment
+{
 
 	ListView eventListView;
 	DatabaseSetup db;
-	
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		View rootView = inflater.inflate(R.layout.fragment_task, container, false);
+
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_task, container,
+				false);
 		return rootView;
 	}
-	public void onActivityCreated(Bundle savedInstanceState){
+
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-		
+
 		db = new DatabaseSetup(getActivity());
 		db.open();
-		
+
 		populateTaskListView();
 	}
 
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.add_event_menu, menu);
 		return;
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if (id == R.id.add_event_btn){
-			
+		if (id == R.id.add_event_btn)
+		{
+
 			EventFragment frag = new EventFragment();
 			Bundle extra = new Bundle();
 			extra.putInt("spinner selection", 0);
 			frag.setArguments(extra);
-			
+
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			ft.addToBackStack(null);
@@ -60,25 +65,30 @@ public class TaskFragment extends Fragment{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	private void populateTaskListView() {
 		Cursor cursorTask = db.getAllTasks();
-		
+
 		getActivity().startManagingCursor(cursorTask);
-		
-		//Fix This Tomorrow
-		String[] fieldNames = new String[]{DatabaseSetup.KEY_DUE_DATE, DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_NAME};
-		int[] fieldNameViewIds = new int[]{R.id.dateView, R.id.SubjectName, R.id.TaskName};
-		
-		ExamTaskCustomCursorAdapter myAdapter = new ExamTaskCustomCursorAdapter(getActivity(), R.layout.exam_task_listview_row_layout, cursorTask, fieldNames, fieldNameViewIds);		
-		ListView lv = (ListView)getActivity().findViewById(R.id.taskListView);
-		
+
+		// Fix This Tomorrow
+		String[] fieldNames = new String[] { DatabaseSetup.KEY_DUE_DATE,
+				DatabaseSetup.KEY_SUBJECT, DatabaseSetup.KEY_NAME };
+		int[] fieldNameViewIds = new int[] { R.id.dateView, R.id.SubjectName,
+				R.id.TaskName };
+
+		ExamTaskCustomCursorAdapter myAdapter = new ExamTaskCustomCursorAdapter(
+				getActivity(), R.layout.exam_task_listview_row_layout,
+				cursorTask, fieldNames, fieldNameViewIds);
+		ListView lv = (ListView) getActivity().findViewById(R.id.taskListView);
+
 		lv.addFooterView(new View(getActivity()), null, false);
 		lv.addHeaderView(new View(getActivity()), null, false);
-		
+
 		lv.setAdapter(myAdapter);
-		
-		lv.setOnItemClickListener(new OnItemClickListener(){
+
+		lv.setOnItemClickListener(new OnItemClickListener()
+		{
 
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View v, int pos,
@@ -95,14 +105,14 @@ public class TaskFragment extends Fragment{
 				editInfo.putString("Due_Date", c.getString(5));
 				editInfo.putString("Desc", c.getString(6));
 				frag.setArguments(editInfo);
-				
+
 				FragmentManager fm = getFragmentManager();
 				FragmentTransaction ft = fm.beginTransaction();
 				ft.addToBackStack(null);
 				ft.replace(R.id.frag_container, frag);
 				ft.commit();
 			}
-			
+
 		});
 	}
 }

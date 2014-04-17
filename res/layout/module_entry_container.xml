@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/moduleFragContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/moduleFragContainer"
     android:padding="6dp" >
-    
-    <EditText 
+
+    <EditText
         android:id="@+id/module_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:imeOptions="actionNext"
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/squareImg"
-        android:hint="Module">
+        android:hint="Module"
+        android:imeOptions="actionNext" >
+
         <requestFocus />
-        </EditText>
-    
+    </EditText>
+
     <EditText
         android:id="@+id/abbreviation_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:imeOptions="actionDone"
-        android:layout_toLeftOf="@+id/squareImg"
         android:layout_below="@id/module_"
-        android:hint="Abbreviation" />
-    
+        android:layout_toLeftOf="@+id/squareImg"
+        android:hint="Abbreviation"
+        android:imeOptions="actionDone" />
+
     <ImageView
         android:id="@+id/squareImg"
         android:layout_width="wrap_content"
@@ -35,5 +36,5 @@
         android:layout_alignParentTop="true"
         android:adjustViewBounds="true"
         android:src="@drawable/square" />
-    
+
 </RelativeLayout>
