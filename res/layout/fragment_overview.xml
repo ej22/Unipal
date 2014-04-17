@@ -16,20 +16,12 @@
     >
 
         <TextView
-            android:id="@+id/getModCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/CurrentModules"
-            android:layout_toRightOf="@+id/CurrentModules"
-            android:text="TextView" />
-
-        <TextView
             android:id="@+id/CurrentModules"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="16dp"
             android:text="Current No. of Modules: "
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -59,6 +51,7 @@
             android:layout_alignLeft="@+id/CurrentNumExam"
             android:layout_below="@+id/CurrentNumExam"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:text="Current No. of Tasks:"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -69,6 +62,15 @@
             android:layout_alignBaseline="@+id/CurrentTask"
             android:layout_alignBottom="@+id/CurrentTask"
             android:layout_alignLeft="@+id/getExamCount"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/getModCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/CurrentModules"
+            android:layout_alignBottom="@+id/CurrentModules"
+            android:layout_alignParentRight="true"
             android:text="TextView" />
 
         </RelativeLayout>
@@ -86,6 +88,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginTop = "16dp"
+            android:layout_marginBottom="16dp"
             android:layout_alignParentTop="true"
             android:text="This app was created for the Mobile Software Development Module in Semester 2 of Year 3 in DIT. \n\n Extra Features Include:
             \n Navigational Drawer \n Fragments \n Action Bar functions \n Fragment BackStacking and Pop Stacking \n" />

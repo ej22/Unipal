@@ -1,7 +1,6 @@
 package com.ej22.unipal;
 
 import com.ej22.unipal.adapter.ExamTaskCustomCursorAdapter;
-import com.ej22.unipal.adapter.ModuleCustomCursorAdapter;
 import com.ej22.unipal.model.DatabaseSetup;
 
 import android.app.Fragment;
