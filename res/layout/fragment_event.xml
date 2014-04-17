@@ -12,12 +12,15 @@
         <requestFocus />
     </EditText>
 
-    <EditText
+    <Spinner
         android:id="@+id/EnterSubject"
-        style="@style/eventTextViewStyle"
         android:layout_below="@id/EnterName"
-        android:hint="Subject" >
-    </EditText>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+         >
+    </Spinner>
 
     <Spinner
         android:id="@+id/spinnerEventType"

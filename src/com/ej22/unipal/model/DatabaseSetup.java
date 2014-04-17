@@ -190,4 +190,22 @@ public class DatabaseSetup {
 		return c;
 	}
 	
+	public List<String> getMouduleTitles(){
+		List<String> titles = new ArrayList<String>();
+		
+		String query = "Select " + KEY_SUBJECT + " from " + TABLE_MODULE;
+		Cursor cursor = db.rawQuery(query, null);
+		
+		if(cursor.moveToFirst()){
+			do{
+				titles.add(cursor.getString(0));
+			}while(cursor.moveToNext());
+			
+			cursor.close();
+			
+		}
+		
+		return titles;
+	}
+	
 }

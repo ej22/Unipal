@@ -1,10 +1,11 @@
 package com.ej22.unipal;
 
 import java.util.Calendar;
+import java.util.List;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -17,8 +18,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -35,10 +38,11 @@ public class EventFragment extends Fragment{
 	
 	//Needed to do insert
 	TextView dueDate;
-	EditText name, subject, subtype, desc;
-	Spinner eventType;
+	EditText name, subtype, desc;
+	Spinner eventType, subject;
 	java.sql.Date date;
 	int selection;
+	String moduleSelection;
 	
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
@@ -46,7 +50,7 @@ public class EventFragment extends Fragment{
 		db = new DatabaseSetup(getActivity());
 		db.open();
 		
-		
+		loadModuleSpinnerData();
 		
 		Toast.makeText(getActivity(), "" + selection, Toast.LENGTH_SHORT).show();
 		
@@ -62,14 +66,34 @@ public class EventFragment extends Fragment{
 		selection = extras.getInt("spinner selection");
 		
 		name = (EditText)rootView.findViewById(R.id.EnterName);
-		subject = (EditText)rootView.findViewById(R.id.EnterSubject);
+		subject = (Spinner)rootView.findViewById(R.id.EnterSubject);
 		subtype = (EditText)rootView.findViewById(R.id.EnterSubType);
 		desc = (EditText)rootView.findViewById(R.id.descriptionEditText);
 		eventType = (Spinner)rootView.findViewById(R.id.spinnerEventType);
 		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinnerEventTypes, android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventType.setAdapter(adapter);
 		eventType.setSelection(selection);
+		
+		subject.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			@Override
+			public void onItemSelected(AdapterView<?> adapter, View v,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				moduleSelection = adapter.getItemAtPosition(position).toString();
+				
+				Toast.makeText(getActivity(),moduleSelection,Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		
 		final Calendar c = Calendar.getInstance();
 		day = c.get(Calendar.DATE);
@@ -124,7 +148,7 @@ public class EventFragment extends Fragment{
 		if (id == R.id.menu_save_btn){
 			try{
 				String s1 = name.getText().toString();		
-				String s2 = subject.getText().toString();
+				String s2 = subject.getSelectedItem().toString();
 				String s3 = eventType.getSelectedItem().toString();
 				String s4 = subtype.getText().toString();
 				String s5 = dueDate.getText().toString();
@@ -170,5 +194,12 @@ public class EventFragment extends Fragment{
 		case 0:	Log.e("getStringMonth","0 case initiated");
 		}
 		return null;
+	}
+	
+	private void loadModuleSpinnerData(){
+		List<String> titles = db.getMouduleTitles();
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, titles);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		subject.setAdapter(adapter);
 	}
 }
