@@ -1,52 +1,42 @@
 package com.ej22.unipal;
 
-import java.util.Calendar;
-
-import com.android.colorpicker.*;
-
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Fragment;
-import android.graphics.Color;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.ImageView;
-import android.widget.Toast;
-import android.util.*;
+import android.widget.TextView;
+
+import com.ej22.unipal.model.DatabaseSetup;
 
 public class OverViewFragment extends Fragment {
 	
 	public OverViewFragment(){};
 	
-	Button btn;
-	ImageView img;
-	
-	private int day, month, year;
-	
+	TextView mod, exam, task;
+	DatabaseSetup db;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		
-		final Calendar c = Calendar.getInstance();
-		day = c.get(Calendar.DATE);
-		month = c.get(Calendar.MONTH);
-		year = c.get(Calendar.YEAR);
-		
+				
 		View rootView = inflater.inflate(R.layout.fragment_overview, container, false);
-		img = (ImageView)rootView.findViewById(R.id.imageIC);
-		btn = (Button)rootView.findViewById(R.id.btn);
 		
-		btn.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View arg0) {
-			}//end onClick
-			
-		});
+		mod = (TextView)rootView.findViewById(R.id.getModCount);
+		exam = (TextView)rootView.findViewById(R.id.getExamCount);
+		task = (TextView)rootView.findViewById(R.id.getTaskCount);
+		
 		return rootView;
+	}
+	
+	public void onActivityCreated(Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+		db = new DatabaseSetup(getActivity());
+		db.open();
+		Cursor modC = db.getAllModules();
+		mod.setText("" + modC.getCount());
+		modC = db.getAllExams();
+		exam.setText("" + modC.getCount());
+		modC = db.getAllTasks();
+		task.setText("" + modC.getCount());
 	}
 	
 	

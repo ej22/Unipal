@@ -5,25 +5,91 @@
     android:orientation="vertical" 
     >
 
-    <TextView
-        android:id="@+id/txtVw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="This is a tribute, you&apos;ve got to believe me"
-        android:textSize="16sp" />
-    
-    <ImageView
-        android:id="@+id/imageIC"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_whats_hot"
-		android:layout_marginTop="10dp"        
-		android:contentDescription="@string/desc_list_item_icon"
-        android:gravity="center"/>
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:id="@+id/getCountLayout"
+    android:background="@drawable/card_bg_r4"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+	android:layout_marginRight="@dimen/activity_horizontal_margin"
+    >
 
-    <Button 
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="text"/>
+        <TextView
+            android:id="@+id/getModCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/CurrentModules"
+            android:layout_toRightOf="@+id/CurrentModules"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/CurrentModules"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="18dp"
+            android:text="Current No. of Modules: "
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/CurrentNumExam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/CurrentModules"
+            android:layout_below="@+id/CurrentModules"
+            android:layout_marginTop="19dp"
+            android:text="Current No. of Exams:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/getExamCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/CurrentNumExam"
+            android:layout_alignBottom="@+id/CurrentNumExam"
+            android:layout_alignLeft="@+id/getModCount"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/CurrentTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/CurrentNumExam"
+            android:layout_below="@+id/CurrentNumExam"
+            android:layout_marginTop="16dp"
+            android:text="Current No. of Tasks:"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/getTaskCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/CurrentTask"
+            android:layout_alignBottom="@+id/CurrentTask"
+            android:layout_alignLeft="@+id/getExamCount"
+            android:text="TextView" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/aboutText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+            android:background="@drawable/card_bg_r4"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+	android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="This app was created for the Mobile Software Development Module in Semester 2 of Year 3 in DIT. \n\n Extra Features Include:
+            \n Navigational Drawer \n Fragments \n Action Bar functions \n Fragment BackStacking and Pop Stacking \n" />
+
+    </RelativeLayout>
+"
 </LinearLayout>
