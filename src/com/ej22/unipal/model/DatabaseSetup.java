@@ -18,7 +18,6 @@ public class DatabaseSetup {
 	
 	//Table Names
 	private static final String TABLE_MODULE = "Module";
-	private static final String TABLE_MOD_EV = "Mod_Events";
 	private static final String TABLE_EXAM = "Exam";
 	private static final String TABLE_TASK = "Task";
 
@@ -49,13 +48,7 @@ public class DatabaseSetup {
 		KEY_SUBJECT + " text not null, " +
 		KEY_ABBREVIATION + " text,  " + 
 		KEY_COLOUR + " int not null);";
-	
-	private static final String CREATE_MOD_EV_TABLE =
-	"create table " + TABLE_MOD_EV + " (" +
-		KEY_ID + " integer primary key autoincrement, " + 
-		KEY_MOD_ID + "integer, " + 
-		KEY_EVENT_ID + "integer);";
-	
+		
 	private static final String CREATE_TASK_TABLE =
 	"create table " + TABLE_EXAM + " (" +
 		KEY_ID + " integer primary key autoincrement, " + 
@@ -98,7 +91,6 @@ public class DatabaseSetup {
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(CREATE_EXAM_TABLE);
 			db.execSQL(CREATE_TASK_TABLE);
-			db.execSQL(CREATE_MOD_EV_TABLE);
 			db.execSQL(CREATE_MODULE_TABLE);			
 		}
 
@@ -244,5 +236,27 @@ public class DatabaseSetup {
 		args.put(KEY_ABBREVIATION, abbreviation);
 		args.put(KEY_COLOUR, color);
 		return db.update(TABLE_MODULE, args, KEY_ID + "=" + id, null)>0;
+	}
+	
+	public boolean updateTask(long id, String name, String subject, String type, String subType, String date, String desc){
+		ContentValues args = new ContentValues();
+		args.put(KEY_NAME, name);
+		args.put(KEY_SUBJECT, subject);
+		args.put(KEY_TYPE, type);
+		args.put(KEY_SUBTYPE, subType);
+		args.put(KEY_DUE_DATE, date);
+		args.put(KEY_DESC, desc);
+		return db.update(TABLE_TASK, args, KEY_ID + "=" + id, null)>0;
+	}
+	
+	public boolean updateExam(long id, String name, String subject, String type, String subType, String date, String desc){
+		ContentValues args = new ContentValues();
+		args.put(KEY_NAME, name);
+		args.put(KEY_SUBJECT, subject);
+		args.put(KEY_TYPE, type);
+		args.put(KEY_SUBTYPE, subType);
+		args.put(KEY_DUE_DATE, date);
+		args.put(KEY_DESC, desc);
+		return db.update(TABLE_EXAM, args, KEY_ID + "=" + id, null)>0;
 	}
 }

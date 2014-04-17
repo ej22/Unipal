@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-        <item
-        android:id="@+id/menu_cancel_btn"
+<item
+        android:id="@+id/discard_btn"
+        android:icon="@drawable/ic_action_discard"
         android:orderInCategory="100"
-        android:showAsAction="always"
-        android:title="Cancel"
-        />
-    
-    <item
-        android:id="@+id/menu_update_btn"
+        android:title="Discard"
+        android:showAsAction="ifRoom"
+        />  
+        
+<item
+        android:id="@+id/cancel_btn"
+        android:icon="@drawable/ic_action_cancel"
         android:orderInCategory="200"
-        android:showAsAction="always"
-        android:title="Update"
-        />
-
+        android:title="Cancel"
+        android:showAsAction="ifRoom"
+        />  
+<item
+        android:id="@+id/accept_btn"
+        android:icon="@drawable/ic_action_accept"
+        android:orderInCategory="300"
+        android:title="Accept"
+        android:showAsAction="ifRoom"
+        />  
 </menu>

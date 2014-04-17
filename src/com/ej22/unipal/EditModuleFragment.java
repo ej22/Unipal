@@ -5,9 +5,11 @@ import com.android.colorpicker.ColorPickerSwatch;
 import com.ej22.unipal.model.DatabaseSetup;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -96,7 +98,7 @@ public class EditModuleFragment extends Fragment{
 		
 		
 		int id = item.getItemId();
-		if (id == R.id.menu_cancel_btn) {
+		if (id == R.id.cancel_btn) {
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 			FragmentManager fm = getFragmentManager();
@@ -106,7 +108,7 @@ public class EditModuleFragment extends Fragment{
 			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
-		if (id == R.id.menu_update_btn){
+		if (id == R.id.accept_btn){
 			String mod = module.getText().toString();
 			String abr = abbrev.getText().toString();
 			
@@ -124,10 +126,40 @@ public class EditModuleFragment extends Fragment{
 			
 			ft.replace(R.id.frag_container, new ModuleFragment());
 			ft.commit();
-			
-			
-			
 			return true;
+		}
+		if(id == R.id.discard_btn){
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle("Confirm Delete");
+	        builder.setMessage(R.string.delete_confim)
+	               .setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       db.deleteModule(rowId);
+	                       Toast.makeText(getActivity(), "Delete Successful", Toast.LENGTH_SHORT).show();
+	                       
+	                       FragmentManager fm = getFragmentManager();
+	           				FragmentTransaction ft = fm.beginTransaction();
+	           			
+	           				ft.replace(R.id.frag_container, new ModuleFragment());
+	           				ft.commit();
+	                       
+	                   }
+	               })
+	               .setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       dialog.dismiss();
+	                       
+	                       FragmentManager fm = getFragmentManager();
+	           			FragmentTransaction ft = fm.beginTransaction();
+	           			
+	           			ft.replace(R.id.frag_container, new ModuleFragment());
+	           			ft.commit();
+	                   }
+	               });
+	        // Create the AlertDialog object and return it
+	        AlertDialog dialog = builder.create();
+	        dialog.show();
 		}
 		return super.onOptionsItemSelected(item);
 	}

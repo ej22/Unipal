@@ -81,24 +81,6 @@ public class ModuleFragment extends Fragment{
 		lv.addHeaderView(new View(getActivity()), null, false);
 		
 		lv.setAdapter(myAdapter);
-		lv.setOnItemLongClickListener(new OnItemLongClickListener(){
-
-			@Override
-			public boolean onItemLongClick(AdapterView<?> adapter, View v,
-					int pos, long id) {
-				// TODO Auto-generated method stub
-				boolean temp = db.deleteModule(id);
-				if(temp){
-					Toast.makeText(getActivity(), "Delete Successful", Toast.LENGTH_SHORT).show();
-					populateListView();
-				}
-				else{
-					Toast.makeText(getActivity(), "Delete Unsuccesful", Toast.LENGTH_SHORT).show();
-				}
-				return temp;
-			}
-			
-		});
 		
 		lv.setOnItemClickListener(new OnItemClickListener(){
 

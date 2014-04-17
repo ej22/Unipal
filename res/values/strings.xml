@@ -6,7 +6,9 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Slider Menu Opened</string>
     <string name="drawer_close">Slider Menu Closed</string>
-    
+    <string name="delete_confim">Are you sure you want to\ndelete this record?</string>
+    <string name="delete_btn">Delete</string>
+    <string name="cancel_btn">Cancel</string>
     <string-array name ="drawer_items_list">
         <item>Overview</item>
         <item>Modules</item>
