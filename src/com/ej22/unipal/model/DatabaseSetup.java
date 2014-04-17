@@ -182,8 +182,7 @@ public class DatabaseSetup {
 	}
 	
 	public Cursor getAllExams() {
-		Cursor c = 	db.query(true, TABLE_EXAM, allEvents, 
-							null, null, null, null, null, null);
+		Cursor c = 	db.rawQuery("select Exam._id, Exam.due_date, Exam.subject, Exam.name, Module.colour from Exam inner join Module where Exam.subject = Module.subject;",null);
 		if (c != null) {
 			c.moveToFirst();
 		}
