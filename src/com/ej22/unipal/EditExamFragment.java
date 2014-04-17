@@ -1,3 +1,13 @@
+/*
+ * EditExamFragment.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To inflate the fragment which will be used for editing a exam in the local SQLite database
+ * 
+ */
+
 package com.ej22.unipal;
 
 import java.util.Calendar;
@@ -37,10 +47,9 @@ import com.ej22.unipal.model.DatabaseSetup;
 public class EditExamFragment extends Fragment
 {
 
+	//global variables
 	private int day, month, year;
 	DatabaseSetup db;
-
-	// Needed to do insert
 	TextView dueDate;
 	EditText name, subtype, desc;
 	Cursor c;

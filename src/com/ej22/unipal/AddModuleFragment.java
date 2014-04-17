@@ -1,3 +1,13 @@
+/*
+ * AddModuleFragment.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To inflate the fragment which will be used for adding a module to the local SQLite database
+ * 
+ */
+
 package com.ej22.unipal;
 
 import android.app.Activity;
@@ -30,10 +40,10 @@ public class AddModuleFragment extends Fragment
 	{
 	};
 
+	//Initial Variables
 	DatabaseSetup db;
 	EditText module, abbrev;
 	ImageView square;
-	String squareHEX;
 	int colorResult;
 	LinearLayout container;
 
@@ -43,16 +53,20 @@ public class AddModuleFragment extends Fragment
 		View rootView = inflater.inflate(R.layout.module_entry_container,
 				container, false);
 
+		//Assign variables their associated id's
 		module = (EditText) rootView.findViewById(R.id.module_);
 		abbrev = (EditText) rootView.findViewById(R.id.abbreviation_);
 		square = (ImageView) rootView.findViewById(R.id.squareImg);
 
+		//set image color for when fragment created
 		square.setColorFilter(Color.parseColor("#33b5e5"));
 
+		//ColorPickerDialog initialization
 		final ColorPickerDialog cpg = ColorPickerDialog.newInstance(
 				R.string.color_picker_default_title, getColors(), 0, 3,
 				ColorPickerDialog.SIZE_SMALL);
 
+		//set checked mark on first colour in array
 		cpg.setSelectedColor(-13388315);
 
 		cpg.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener()
@@ -63,7 +77,6 @@ public class AddModuleFragment extends Fragment
 				// TODO Auto-generated method stub
 				square.setColorFilter(color);
 				colorResult = color;
-				squareHEX = String.format("#%06X", (0xFFFFFF & color));
 			}
 		});
 
@@ -72,7 +85,7 @@ public class AddModuleFragment extends Fragment
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				//show the dialog when image is clicked
 				cpg.show(getFragmentManager(), "tag");
 			}
 
@@ -83,7 +96,7 @@ public class AddModuleFragment extends Fragment
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
-
+		//open database for querying
 		db = new DatabaseSetup(getActivity());
 		db.open();
 	}
@@ -98,8 +111,7 @@ public class AddModuleFragment extends Fragment
 		int id = item.getItemId();
 		if (id == R.id.menu_cancel_btn)
 		{
-			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-			getActivity().getActionBar().setHomeButtonEnabled(true);
+			//Fragment Manager to pop the BackStack if cancel button is pressed
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
@@ -108,10 +120,12 @@ public class AddModuleFragment extends Fragment
 		}
 		if (id == R.id.menu_save_btn)
 		{
+			//get values from EditText widgets
 			String mod = module.getText().toString();
 			String abr = abbrev.getText().toString();
-
+			//append int result to string
 			String color = "" + colorResult;
+			//insert into the database
 			db.insertModule(mod, abr, color);
 			Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
 
@@ -122,6 +136,7 @@ public class AddModuleFragment extends Fragment
 					InputMethodManager.SHOW_IMPLICIT, 0);
 			// reference complete
 
+			//Fragment Manager to pop the BackStack save is pressed
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
@@ -133,10 +148,12 @@ public class AddModuleFragment extends Fragment
 	}
 
 	public int[] getColors() {
+		//get colors from string array in string.xml
 		String[] tempColors = getResources().getStringArray(
 				R.array.default_color_choice_values);
 		int[] tempIntColors;
 		tempIntColors = new int[tempColors.length];
+		//assign string array of colours to int array
 		for (int i = 0; i < tempColors.length; i++)
 		{
 			tempIntColors[i] = Color.parseColor(tempColors[i]);
