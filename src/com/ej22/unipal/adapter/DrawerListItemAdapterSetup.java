@@ -1,3 +1,12 @@
+/*
+ * DrawerListItemAdapterSetup.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To setup the adapter used for creating the nav drawer
+ * 
+ */
 package com.ej22.unipal.adapter;
 
 import java.util.ArrayList;

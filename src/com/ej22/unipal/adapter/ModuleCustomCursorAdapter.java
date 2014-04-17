@@ -1,3 +1,12 @@
+/*
+ * ExamTaskCustomCursorAdapter.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To create a custom adapter relating to the database fields and associated objects.
+ * 
+ */
 package com.ej22.unipal.adapter;
 
 import android.content.Context;

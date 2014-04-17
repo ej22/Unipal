@@ -1,3 +1,14 @@
+/*
+ * EventFragment.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To inflate the fragment which will be used for inserting a event into the database
+ * it will either insert into the task or exam table depending on which event type is chosen
+ * by the user
+ * 
+ */
 package com.ej22.unipal;
 
 import java.util.Calendar;
@@ -33,11 +44,9 @@ import com.ej22.unipal.model.DatabaseSetup;
 
 public class EventFragment extends Fragment
 {
-
+	//initial variables
 	private int day, month, year;
 	DatabaseSetup db;
-
-	// Needed to do insert
 	TextView dueDate;
 	EditText name, subtype, desc;
 	Spinner eventType, subject;
@@ -48,11 +57,12 @@ public class EventFragment extends Fragment
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
+		//instantiate database
 		db = new DatabaseSetup(getActivity());
 		db.open();
-
+		//load modules from database and assign to spinner
 		loadModuleSpinnerData();
-
+		//diable action bar options
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActivity().getActionBar().setHomeButtonEnabled(false);
 
@@ -64,6 +74,7 @@ public class EventFragment extends Fragment
 		View rootView = inflater.inflate(R.layout.fragment_event, container,
 				false);
 
+		//get bundle information and assign to variable
 		Bundle extras = getArguments();
 		selection = extras.getInt("spinner selection");
 
@@ -73,32 +84,15 @@ public class EventFragment extends Fragment
 		desc = (EditText) rootView.findViewById(R.id.descriptionEditText);
 		eventType = (Spinner) rootView.findViewById(R.id.spinnerEventType);
 
+		//setup event spinner from string-array
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				getActivity(), R.array.spinnerEventTypes,
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventType.setAdapter(adapter);
 		eventType.setSelection(selection);
-
-		subject.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-
-			@Override
-			public void onItemSelected(AdapterView<?> adapter, View v,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				moduleSelection = adapter.getItemAtPosition(position)
-						.toString();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
+		
+		//get current date from calendar objects
 		final Calendar c = Calendar.getInstance();
 		day = c.get(Calendar.DATE);
 		month = c.get(Calendar.MONTH);
@@ -111,6 +105,7 @@ public class EventFragment extends Fragment
 
 			@Override
 			public void onClick(View arg0) {
+				//instantiate datepickerdialog
 				DatePickerDialog dpg = new DatePickerDialog(getActivity(),
 						new OnDateSetListener()
 						{
@@ -145,8 +140,10 @@ public class EventFragment extends Fragment
 		int id = item.getItemId();
 		if (id == R.id.menu_cancel_btn)
 		{
+			//enable action bar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
+			//pop fragment backstack
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
@@ -155,10 +152,12 @@ public class EventFragment extends Fragment
 		}
 		if (id == R.id.menu_save_btn)
 		{
+			//enable action bar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 			try
 			{
+				//get data from widgets
 				String s1 = name.getText().toString();
 				String s2 = subject.getSelectedItem().toString();
 				String s3 = eventType.getSelectedItem().toString();
@@ -166,11 +165,15 @@ public class EventFragment extends Fragment
 				String s5 = dueDate.getText().toString();
 				String s6 = desc.getText().toString();
 
+				//if event type is task
 				if (s3.equals("Task"))
 				{
+					//insert a new task
 					db.insertTask(s1, s2, s3, s4, s5, s6);
-				} else if (s3.equals("Exam"))
+				}//if event type is exam 
+				else if (s3.equals("Exam"))
 				{
+					//insert a new exam
 					db.insertExam(s1, s2, s3, s4, s5, s6);
 				}
 
@@ -189,12 +192,17 @@ public class EventFragment extends Fragment
 
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-
+			
+			//if event type is task
 			if (eventType.getSelectedItem().toString().equals("Task"))
 			{
+				//create new instance of TaskFragment to bring you back to the correct screen
+				//and refresh the list view
 				ft.replace(R.id.frag_container, new TaskFragment());
 			} else if (eventType.getSelectedItem().toString().equals("Exam"))
 			{
+				//create new instance of ExamFragment to bring you back to the correct screen
+				//and refresh the list view
 				ft.replace(R.id.frag_container, new ExamFragment());
 			}
 
@@ -205,6 +213,7 @@ public class EventFragment extends Fragment
 		return super.onOptionsItemSelected(item);
 	}
 
+	//method to turn month int into appropriate string
 	private String getStringMonth(int month) {
 		month = month + 1;
 		switch (month)
@@ -240,7 +249,9 @@ public class EventFragment extends Fragment
 	}
 
 	private void loadModuleSpinnerData() {
+		//load database query into string list
 		List<String> titles = db.getMouduleTitles();
+		//setup adapter and assign to spinner
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_spinner_item, titles);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

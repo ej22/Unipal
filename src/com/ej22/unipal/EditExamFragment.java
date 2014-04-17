@@ -33,8 +33,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -58,27 +56,33 @@ public class EditExamFragment extends Fragment
 	int eventSelection, subjectSelection;
 	long rowId;
 
+	//Strings to hold information sent through a bundle
 	String moduleSelection, bundleName, bundleSubject, bundleEventType,
 			bundleSubType, bundleDueDate, bundleDesc;
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//set that this fragment has the options menu available
 		setHasOptionsMenu(true);
+		//open database
 		db = new DatabaseSetup(getActivity());
 		db.open();
 
+		//call method to load modules titles from database and assign them to spinner
 		loadModuleSpinnerData();
 
+		//disable various action bar options that while editing
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActivity().getActionBar().setHomeButtonEnabled(false);
 	}
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		
 		View rootView = inflater.inflate(R.layout.fragment_event, container,
 				false);
 
+		//retrieve bundle of arguments and assign them to variables
 		Bundle extras = getArguments();
 		rowId = extras.getLong("_id");
 		bundleName = extras.getString("Name");
@@ -87,7 +91,7 @@ public class EditExamFragment extends Fragment
 		bundleSubType = extras.getString("SubType");
 		bundleDueDate = extras.getString("Due_Date");
 		bundleDesc = extras.getString("Desc");
-
+		//setting this as 1 so as the spinner will show "Exam" by default
 		eventSelection = 1;
 
 		name = (EditText) rootView.findViewById(R.id.EnterName);
@@ -96,37 +100,21 @@ public class EditExamFragment extends Fragment
 		desc = (EditText) rootView.findViewById(R.id.descriptionEditText);
 		eventType = (Spinner) rootView.findViewById(R.id.spinnerEventType);
 
+		//set text from information passed through bundle
 		name.setText(bundleName);
 		subtype.setText(bundleSubType);
 		desc.setText(bundleDesc);
 
+		//setup event type array from string-array  and set adapter to it. 
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				getActivity(), R.array.spinnerEventTypes,
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventType.setAdapter(adapter);
+		//set spinner to the previous selection
 		eventType.setSelection(eventSelection);
 
-		subject.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-
-			@Override
-			public void onItemSelected(AdapterView<?> adapter, View v,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				moduleSelection = adapter.getItemAtPosition(position)
-						.toString();
-
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
+		//calendar objects to get today's date
 		final Calendar c = Calendar.getInstance();
 		day = c.get(Calendar.DATE);
 		month = c.get(Calendar.MONTH);
@@ -173,8 +161,10 @@ public class EditExamFragment extends Fragment
 		int id = item.getItemId();
 		if (id == R.id.cancel_btn)
 		{
+			//enable actionbar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
+			//pop backstack of fragment
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
@@ -183,11 +173,13 @@ public class EditExamFragment extends Fragment
 		}
 		if (id == R.id.accept_btn)
 		{
+			//enable actionbar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 
 			try
 			{
+				//get the values from various widgets and assign them to strings
 				String s1 = name.getText().toString();
 				String s2 = subject.getSelectedItem().toString();
 				String s3 = eventType.getSelectedItem().toString();
@@ -195,6 +187,7 @@ public class EditExamFragment extends Fragment
 				String s5 = dueDate.getText().toString();
 				String s6 = desc.getText().toString();
 
+				//update exam module
 				db.updateExam(rowId, s1, s2, s3, s4, s5, s6);
 
 			} catch (SQLException e)
@@ -210,6 +203,7 @@ public class EditExamFragment extends Fragment
 					InputMethodManager.SHOW_IMPLICIT, 0);
 			// reference complete
 
+			//FragmentTransaction to ensure that the updateListViewMethod in ExamFragment is recalled to update
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 
@@ -220,9 +214,11 @@ public class EditExamFragment extends Fragment
 		}
 		if (id == R.id.discard_btn)
 		{
+			//enable actionbar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 
+			//make alert dialog to prompt user warning about delete
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Confirm Delete");
 			builder.setMessage(R.string.delete_confim)
@@ -239,7 +235,8 @@ public class EditExamFragment extends Fragment
 									FragmentManager fm = getFragmentManager();
 									FragmentTransaction ft = fm
 											.beginTransaction();
-
+									
+									//replace with new ExamFragment so updateListView method is recalled
 									ft.replace(R.id.frag_container,
 											new ExamFragment());
 									ft.commit();
@@ -256,7 +253,8 @@ public class EditExamFragment extends Fragment
 									FragmentManager fm = getFragmentManager();
 									FragmentTransaction ft = fm
 											.beginTransaction();
-
+									
+									//replace with new ExamFragment so updateListView method is recalled
 									ft.replace(R.id.frag_container,
 											new ExamFragment());
 									ft.commit();
@@ -270,6 +268,7 @@ public class EditExamFragment extends Fragment
 		return super.onOptionsItemSelected(item);
 	}
 
+	//method to change int value into appropriate string value for month
 	private String getStringMonth(int month) {
 		month = month + 1;
 		switch (month)
@@ -304,6 +303,7 @@ public class EditExamFragment extends Fragment
 		return null;
 	}
 
+	//method to load data from database into spinner
 	private void loadModuleSpinnerData() {
 		List<String> titles = db.getMouduleTitles();
 		subjectAdapter = new ArrayAdapter<String>(getActivity(),
@@ -312,6 +312,8 @@ public class EditExamFragment extends Fragment
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		subject.setAdapter(subjectAdapter);
 
+		//for loop to search that if the subject passed in bundle matches one of the module titles
+		//set the spinner to that subject
 		for (int i = 0; i < titles.size(); i++)
 		{
 			if (bundleSubject.matches(titles.get(i)))

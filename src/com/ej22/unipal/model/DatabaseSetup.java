@@ -1,3 +1,12 @@
+/*
+ * DatabaseSetup.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To setup the database associated with the application, including all CRUD statements
+ * 
+ */
 package com.ej22.unipal.model;
 
 import java.util.ArrayList;
@@ -77,7 +86,7 @@ public class DatabaseSetup
 		this.context = ctx;
 		DBHelper = new DatabaseHelper(context);
 	}
-
+	//nested class to handle creation of database
 	private static class DatabaseHelper extends SQLiteOpenHelper
 	{
 		DatabaseHelper(Context context)

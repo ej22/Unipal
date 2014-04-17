@@ -1,3 +1,12 @@
+/*
+ * DrawerListItemSetup.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To model drawerList objects
+ * 
+ */
 package com.ej22.unipal.model;
 
 public class DrawerListItemSetup

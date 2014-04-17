@@ -1,3 +1,12 @@
+/*
+ * EditModuleFragment.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To inflate the fragment which will be used for editing a task in the local SQLite database
+ * 
+ */
 package com.ej22.unipal;
 
 import java.util.Calendar;
@@ -36,10 +45,9 @@ import com.ej22.unipal.model.DatabaseSetup;
 
 public class EditTaskFragment extends Fragment
 {
+	//initial variables
 	private int day, month, year;
 	DatabaseSetup db;
-
-	// Needed to do insert
 	TextView dueDate;
 	EditText name, subtype, desc;
 	Cursor c;
@@ -53,12 +61,15 @@ public class EditTaskFragment extends Fragment
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//set optionsmenu
 		setHasOptionsMenu(true);
+		//instantiate database connection
 		db = new DatabaseSetup(getActivity());
 		db.open();
-
+		//load data from database and set it to spinner
 		loadModuleSpinnerData();
-
+		
+		//disable action bar options 
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActivity().getActionBar().setHomeButtonEnabled(false);
 	}
@@ -69,6 +80,7 @@ public class EditTaskFragment extends Fragment
 		View rootView = inflater.inflate(R.layout.fragment_event, container,
 				false);
 
+		//get bundle arguemnts and assign to variables
 		Bundle extras = getArguments();
 		rowId = extras.getLong("_id");
 		bundleName = extras.getString("Name");
@@ -78,6 +90,7 @@ public class EditTaskFragment extends Fragment
 		bundleDueDate = extras.getString("Due_Date");
 		bundleDesc = extras.getString("Desc");
 
+		//set event spinner to Task by default
 		eventSelection = 0;
 
 		name = (EditText) rootView.findViewById(R.id.EnterName);
@@ -90,33 +103,15 @@ public class EditTaskFragment extends Fragment
 		subtype.setText(bundleSubType);
 		desc.setText(bundleDesc);
 
+		//load event spinner from string-array and set selection to Task
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				getActivity(), R.array.spinnerEventTypes,
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventType.setAdapter(adapter);
 		eventType.setSelection(eventSelection);
-
-		subject.setOnItemSelectedListener(new OnItemSelectedListener()
-		{
-
-			@Override
-			public void onItemSelected(AdapterView<?> adapter, View v,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				moduleSelection = adapter.getItemAtPosition(position)
-						.toString();
-
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-
+		
+		//calendar to get todays date
 		final Calendar c = Calendar.getInstance();
 		day = c.get(Calendar.DATE);
 		month = c.get(Calendar.MONTH);
@@ -129,6 +124,7 @@ public class EditTaskFragment extends Fragment
 
 			@Override
 			public void onClick(View arg0) {
+				//instantiate datepicker 
 				DatePickerDialog dpg = new DatePickerDialog(getActivity(),
 						new OnDateSetListener()
 						{
@@ -163,8 +159,10 @@ public class EditTaskFragment extends Fragment
 		int id = item.getItemId();
 		if (id == R.id.cancel_btn)
 		{
+			//enable action bar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
+			//pop backstack of fragment
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
@@ -173,18 +171,20 @@ public class EditTaskFragment extends Fragment
 		}
 		if (id == R.id.accept_btn)
 		{
+			//enable action bar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 
 			try
 			{
+				//get vaules from widgets
 				String s1 = name.getText().toString();
 				String s2 = subject.getSelectedItem().toString();
 				String s3 = eventType.getSelectedItem().toString();
 				String s4 = subtype.getText().toString();
 				String s5 = dueDate.getText().toString();
 				String s6 = desc.getText().toString();
-
+				//update database
 				db.updateTask(rowId, s1, s2, s3, s4, s5, s6);
 
 			} catch (SQLException e)
@@ -202,7 +202,7 @@ public class EditTaskFragment extends Fragment
 
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-
+			//call new instance of taskfragment to as to refresh list view
 			ft.replace(R.id.frag_container, new TaskFragment());
 			ft.commit();
 
@@ -210,9 +210,11 @@ public class EditTaskFragment extends Fragment
 		}
 		if (id == R.id.discard_btn)
 		{
+			//enable action bar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 
+			//call alert dialog builder
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Confirm Delete");
 			builder.setMessage(R.string.delete_confim)
@@ -229,7 +231,7 @@ public class EditTaskFragment extends Fragment
 									FragmentManager fm = getFragmentManager();
 									FragmentTransaction ft = fm
 											.beginTransaction();
-
+									//display new instance of taskfragment to refresh list view
 									ft.replace(R.id.frag_container,
 											new TaskFragment());
 									ft.commit();
@@ -246,13 +248,13 @@ public class EditTaskFragment extends Fragment
 									FragmentManager fm = getFragmentManager();
 									FragmentTransaction ft = fm
 											.beginTransaction();
-
+									//display new instance of taskfragment to refresh list view
 									ft.replace(R.id.frag_container,
 											new TaskFragment());
 									ft.commit();
 								}
 							});
-			// Create the AlertDialog object and return it
+			// Create the AlertDialog object and show it
 			AlertDialog dialog = builder.create();
 			dialog.show();
 
@@ -260,6 +262,7 @@ public class EditTaskFragment extends Fragment
 		return super.onOptionsItemSelected(item);
 	}
 
+	//method to change int value into appropriate string value for month
 	private String getStringMonth(int month) {
 		month = month + 1;
 		switch (month)
@@ -294,6 +297,7 @@ public class EditTaskFragment extends Fragment
 		return null;
 	}
 
+	//method to load data from database into spinner
 	private void loadModuleSpinnerData() {
 		List<String> titles = db.getMouduleTitles();
 		subjectAdapter = new ArrayAdapter<String>(getActivity(),
@@ -302,6 +306,8 @@ public class EditTaskFragment extends Fragment
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		subject.setAdapter(subjectAdapter);
 
+		//for loop to search that if the subject passed in bundle matches one of the module titles
+		//set the spinner to that subject
 		for (int i = 0; i < titles.size(); i++)
 		{
 			if (bundleSubject.matches(titles.get(i)))

@@ -1,3 +1,13 @@
+/*
+ * MainActivity.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To inflate the fragment which will be used for handling the drawing of the navigation
+ * drawer and loading the default fragment when you load the application
+ * 
+ */
 package com.ej22.unipal;
 
 import java.util.ArrayList;
@@ -23,7 +33,7 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity
 {
-
+	//initial variables
 	private DrawerLayout drawerLayout;
 	private ListView drawerListView;
 	private ActionBarDrawerToggle drawerToggle;
@@ -41,13 +51,16 @@ public class MainActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		//open database
 		db = new DatabaseSetup(this);
 		db.open();
-
+		//set the menu and drawer titles to be the same 
 		menuTitle = drawerTitle = getTitle();
 
+		//set array to hold the nav menu names
 		drawerListTitles = getResources().getStringArray(
 				R.array.drawer_items_list);
+		//set array to hold the nav menu icons
 		drawerListIcons = getResources().obtainTypedArray(
 				R.array.drawer_items_icons);
 
@@ -58,11 +71,10 @@ public class MainActivity extends Activity
 
 		for (int i = 0; i < drawerListTitles.length; i++)
 		{
+			//add names and icons to drawerlist
 			drawerListItem.add(new DrawerListItemSetup(drawerListTitles[i],
 					drawerListIcons.getResourceId(i, -1)));
 		}
-
-		drawerListIcons.recycle();
 
 		adapter = new DrawerListItemAdapterSetup(getApplicationContext(),
 				drawerListItem);
@@ -71,6 +83,7 @@ public class MainActivity extends Activity
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
+		//define what happens when you open and close the drawer
 		drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
 				R.drawable.ic_drawer, R.string.app_name, R.string.app_name)
 		{
@@ -86,6 +99,7 @@ public class MainActivity extends Activity
 
 		if (savedInstanceState == null)
 		{
+			//set the initial display to be the first case in switch statement
 			displayView(0);
 		}
 
@@ -100,11 +114,13 @@ public class MainActivity extends Activity
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int pos,
 				long id) {
+			//call display method for the item at that position
 			displayView(pos);
 		}
 
 	}
 
+	//method to help display the various fragments based on what is clicked in the nav drawer
 	private void displayView(int pos) {
 		Fragment frag = null;
 		switch (pos)
@@ -127,9 +143,12 @@ public class MainActivity extends Activity
 
 		if (frag != null)
 		{
+			//replace fragment container with a fragment
 			FragmentManager fragManager = getFragmentManager();
 			fragManager.beginTransaction().replace(R.id.frag_container, frag)
 					.commit();
+			
+			// update selected item and title, then close the drawer
 			drawerListView.setItemChecked(pos, true);
 			drawerListView.setSelected(true);
 			setTitle(drawerListTitles[pos]);
@@ -147,11 +166,13 @@ public class MainActivity extends Activity
 
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
+		 // Sync the toggle state after onRestoreInstanceState has occurred.
 		drawerToggle.syncState();
 	}
 
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggles
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 

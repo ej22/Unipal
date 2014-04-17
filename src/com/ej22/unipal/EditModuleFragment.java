@@ -1,3 +1,12 @@
+/*
+ * EditModuleFragment.java
+ * Author: Stephen Hanley
+ * Student Number: C08364275
+ * Date: 17/04/2014
+ * 
+ * Purpose: To inflate the fragment which will be used for editing a module in the local SQLite database
+ * 
+ */
 package com.ej22.unipal;
 
 import com.android.colorpicker.ColorPickerDialog;
@@ -26,10 +35,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class EditModuleFragment extends Fragment{
+	
+	//initial variables
 	DatabaseSetup db;
 	EditText module, abbrev;
 	ImageView square;
-	String squareHEX, subject, bundleAbbrev;
+	String subject, bundleAbbrev;
 	int colorResult, bundleColor;
 	LinearLayout container;
 	Long rowId;
@@ -38,6 +49,7 @@ public class EditModuleFragment extends Fragment{
 		
 		View rootView = inflater.inflate(R.layout.module_entry_container, container, false);
 		
+		//retrieve bundle and assign to variables
 		Bundle info = getArguments();
 		rowId = info.getLong("_id");
 		subject = info.getString("subject");
@@ -48,23 +60,25 @@ public class EditModuleFragment extends Fragment{
 		abbrev = (EditText)rootView.findViewById(R.id.abbreviation_);
 		square = (ImageView)rootView.findViewById(R.id.squareImg);
 		
+		//set color of square to bundle color
 		square.setColorFilter(bundleColor);
 		
 		module.setText(subject);
 		abbrev.setText(bundleAbbrev);
 		
+		//implement ColorPicker Library
 		final ColorPickerDialog cpg = ColorPickerDialog.newInstance(
 	              R.string.color_picker_default_title, getColors(), 0, 3,
 	              ColorPickerDialog.SIZE_SMALL);
+		
 		
 		cpg.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
 			
 			@Override
 			public void onColorSelected(int color) {
-				// TODO Auto-generated method stub
+				// set color of square and assign to int for editting
 				square.setColorFilter(color);
 				colorResult = color;
-				squareHEX = String.format("#%06X", (0xFFFFFF & color));
 			}
 		});
 		
@@ -72,7 +86,7 @@ public class EditModuleFragment extends Fragment{
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
+				// show dialog
 				cpg.show(getFragmentManager(), "tag");
 			}
 			
@@ -84,6 +98,7 @@ public class EditModuleFragment extends Fragment{
 		super.onActivityCreated(savedInstanceState);
 		setHasOptionsMenu(true);
 		
+		//implement database
 		db = new DatabaseSetup(getActivity());
 		db.open();
 	}
@@ -98,8 +113,10 @@ public class EditModuleFragment extends Fragment{
 		
 		int id = item.getItemId();
 		if (id == R.id.cancel_btn) {
+			//enable actionbar options
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
+			//pop fragment backstack
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
@@ -107,10 +124,12 @@ public class EditModuleFragment extends Fragment{
 			return true;
 		}
 		if (id == R.id.accept_btn){
+			//get text from widgets
 			String mod = module.getText().toString();
 			String abr = abbrev.getText().toString();
 			
 			String color = "" + colorResult;
+			//call update method
 			db.updateModule(rowId, mod, abr, color);
 			Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
 			
@@ -121,13 +140,14 @@ public class EditModuleFragment extends Fragment{
 			
 			FragmentManager fm = getFragmentManager();
 			FragmentTransaction ft = fm.beginTransaction();
-			
+			//call  new instance of module fragment to recall refreshlistview method
 			ft.replace(R.id.frag_container, new ModuleFragment());
 			ft.commit();
 			return true;
 		}
 		if(id == R.id.discard_btn){
 			
+			//display alertdialog 
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle("Confirm Delete");
 	        builder.setMessage(R.string.delete_confim)
@@ -138,7 +158,7 @@ public class EditModuleFragment extends Fragment{
 	                       
 	                       FragmentManager fm = getFragmentManager();
 	           				FragmentTransaction ft = fm.beginTransaction();
-	           			
+	           				//display new instance of fragment to refresh list view
 	           				ft.replace(R.id.frag_container, new ModuleFragment());
 	           				ft.commit();
 	                       
@@ -150,12 +170,12 @@ public class EditModuleFragment extends Fragment{
 	                       
 	                       FragmentManager fm = getFragmentManager();
 	           			FragmentTransaction ft = fm.beginTransaction();
-	           			
+	           		//display new instance of fragment to refresh list view
 	           			ft.replace(R.id.frag_container, new ModuleFragment());
 	           			ft.commit();
 	                   }
 	               });
-	        // Create the AlertDialog object and return it
+	        // Create the AlertDialog object and show it
 	        AlertDialog dialog = builder.create();
 	        dialog.show();
 		}
@@ -163,9 +183,11 @@ public class EditModuleFragment extends Fragment{
 	}
 	
 	public int[] getColors(){
+		//assign string-array to a string array
 		String[]tempColors = getResources().getStringArray(R.array.default_color_choice_values);
 		int[] tempIntColors;
 		tempIntColors = new int[tempColors.length];
+		//parse colors of string array into an integer array for using in color picker 
 		for (int i=0; i<tempColors.length;i++){
 			tempIntColors[i] = Color.parseColor(tempColors[i]);
 		}
