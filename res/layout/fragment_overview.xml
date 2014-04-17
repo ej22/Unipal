@@ -88,10 +88,8 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
-            android:text="This app was created for the Mobile Software Development Module in Semester 2 of Year 3 in DIT. \n\n Extra Features Include:
+            android:text="This app was created for the Mobile Software Development Module in Semester 2 of Year 3 in DIT. \n\n Stephen Hanley. C08364275 \n\n Extra Features Include:
             \n Navigational Drawer \n Fragments \n Action Bar functions \n Fragment BackStacking and Pop Stacking \n Sending Bundle of information between fragments and matching it to a database 
             \n DatePickerDialog \n ColorPickerLibrary \n Custom Cursor Adapters" />
     </RelativeLayout>
-"
-
-</LinearLayout>
+</LinearLayout>
