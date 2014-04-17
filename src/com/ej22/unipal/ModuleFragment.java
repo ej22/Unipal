@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ej22.unipal.adapter.ModuleCustomCursorAdapter;
 import com.ej22.unipal.model.DatabaseSetup;
@@ -57,7 +56,6 @@ public class ModuleFragment extends Fragment{
 			ft.addToBackStack(null);
 			ft.replace(R.id.frag_container, new AddModuleFragment());
 			ft.commit();
-			Toast.makeText(getActivity(), "Switching", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

@@ -58,7 +58,6 @@ public class AddModuleFragment extends Fragment {
 				square.setColorFilter(color);
 				colorResult = color;
 				squareHEX = String.format("#%06X", (0xFFFFFF & color));
-				Toast.makeText(getActivity(), "COLOR: " + squareHEX, Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -98,7 +97,6 @@ public class AddModuleFragment extends Fragment {
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
 			ft.commit();
-			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		if (id == R.id.menu_save_btn){
@@ -107,7 +105,7 @@ public class AddModuleFragment extends Fragment {
 			
 			String color = "" + colorResult;
 			db.insertModule(mod, abr, color);
-			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
 			
 			//Code referenced from: http://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard/15587937#15587937
 			((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))

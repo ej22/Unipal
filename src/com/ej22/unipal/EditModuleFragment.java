@@ -65,7 +65,6 @@ public class EditModuleFragment extends Fragment{
 				square.setColorFilter(color);
 				colorResult = color;
 				squareHEX = String.format("#%06X", (0xFFFFFF & color));
-				Toast.makeText(getActivity(), "COLOR: " + squareHEX, Toast.LENGTH_SHORT).show();
 			}
 		});
 		
@@ -105,7 +104,6 @@ public class EditModuleFragment extends Fragment{
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
 			ft.commit();
-			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		if (id == R.id.accept_btn){

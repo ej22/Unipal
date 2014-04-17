@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class ExamFragment extends Fragment{
 
@@ -60,7 +59,6 @@ public class ExamFragment extends Fragment{
 			ft.addToBackStack(null);
 			ft.replace(R.id.frag_container, frag);
 			ft.commit();
-			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

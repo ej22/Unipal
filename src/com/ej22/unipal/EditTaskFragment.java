@@ -100,7 +100,6 @@ public class EditTaskFragment extends Fragment{
 				// TODO Auto-generated method stub
 				moduleSelection = adapter.getItemAtPosition(position).toString();
 				
-				Toast.makeText(getActivity(),moduleSelection,Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
@@ -128,7 +127,6 @@ public class EditTaskFragment extends Fragment{
 					public void onDateSet(DatePicker picker, int selectedYear, int selectedMonth,
 							int selectedDay) {
 						
-						Toast.makeText(getActivity(), "Date Set at: " + selectedDay + "th of " + getStringMonth(selectedMonth) + " " + selectedYear, Toast.LENGTH_LONG).show();
 						dueDate.setText("" + selectedDay + " of " + getStringMonth(selectedMonth) + " " + selectedYear);
 					}
 					
@@ -158,7 +156,6 @@ public class EditTaskFragment extends Fragment{
 			FragmentTransaction ft = fm.beginTransaction();
 			fm.popBackStack();
 			ft.commit();
-			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
 		if (id == R.id.accept_btn){
@@ -178,7 +175,7 @@ public class EditTaskFragment extends Fragment{
 			}catch(SQLException e){
 				Log.e("InsertFail", "Failed to insert");
 			}
-			Toast.makeText(getActivity(), "SAVE", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Updated", Toast.LENGTH_SHORT).show();
 			
 			//Code referenced from: http://stackoverflow.com/questions/1109022/close-hide-the-android-soft-keyboard/15587937#15587937
 			((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))
