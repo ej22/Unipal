@@ -90,9 +90,10 @@ public class ExamFragment extends Fragment{
 			public void onItemClick(AdapterView<?> adapter, View v, int pos,
 					long id) {
 				// TODO Auto-generated method stub
-				EventFragment frag = new EventFragment();
+				EditEventFragment frag = new EditEventFragment();
 				Bundle editInfo = new Bundle();
 				editInfo.putLong("_id", id);
+				editInfo.putString("Name", name);
 				frag.setArguments(editInfo);
 				
 				FragmentManager fm = getFragmentManager();

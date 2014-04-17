@@ -37,7 +37,8 @@ public class DatabaseSetup {
 	public static final String KEY_SUBTYPE = "subtype";
 	public static final String KEY_DUE_DATE = "due_date";
 	public static final String KEY_DESC = "description";
-	public static final String[] allEvents = {KEY_ID,KEY_NAME,KEY_SUBJECT, KEY_TYPE, KEY_DUE_DATE};
+	public static final String[] displayListViewAdapterEvents = {KEY_ID,KEY_NAME,KEY_SUBJECT, KEY_TYPE, KEY_DUE_DATE};
+	public static final String[] allEventFields = {KEY_ID,KEY_NAME,KEY_SUBJECT, KEY_TYPE,KEY_SUBTYPE, KEY_DUE_DATE,KEY_DESC};
 	
 	public static final String KEY_EVENT_ID = "event_id";
 	
@@ -167,7 +168,7 @@ public class DatabaseSetup {
 	}	
 	
 	public Cursor getAllTasks() {
-		Cursor cTask = db.query(true, TABLE_TASK, allEvents,
+		Cursor cTask = db.query(true, TABLE_TASK, displayListViewAdapterEvents,
 				null, null,null,null,null,null);
 		
 		if (cTask != null){
@@ -178,7 +179,7 @@ public class DatabaseSetup {
 	}
 	
 	public Cursor getAllExams() {
-		Cursor c = 	db.query(true, TABLE_EXAM, allEvents,
+		Cursor c = 	db.query(true, TABLE_EXAM, displayListViewAdapterEvents,
 				null, null,null,null,null,null);
 		if (c != null) {
 			c.moveToFirst();
@@ -205,6 +206,30 @@ public class DatabaseSetup {
 	{
 		String where = KEY_ID + "=" + id;
 		Cursor cursor = db.query(true, TABLE_MODULE, allModules,
+				where,null,null,null,null,null);
+		
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+	public Cursor getExamDetails (long id)
+	{
+		String where = KEY_ID + "=" + id;
+		Cursor cursor = db.query(true, TABLE_EXAM, allEventFields,
+				where,null,null,null,null,null);
+		
+		if(cursor != null){
+			cursor.moveToFirst();
+		}
+		return cursor;
+	}
+	
+	public Cursor getTaskDetails (long id)
+	{
+		String where = KEY_ID + "=" + id;
+		Cursor cursor = db.query(true, TABLE_TASK, allEventFields,
 				where,null,null,null,null,null);
 		
 		if(cursor != null){
