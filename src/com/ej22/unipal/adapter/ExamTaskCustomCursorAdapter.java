@@ -39,17 +39,14 @@ public class ExamTaskCustomCursorAdapter extends SimpleCursorAdapter{
         TextView date=(TextView)view.findViewById(R.id.dateView);
         TextView subject=(TextView)view.findViewById(R.id.SubjectName);
         TextView task=(TextView)view.findViewById(R.id.TaskName);
-        ImageView modImg = (ImageView)view.findViewById(R.id.lineImg);
         
         int dateSelect = cursor.getColumnIndex(DatabaseSetup.KEY_DUE_DATE);
         int subjectSelect = cursor.getColumnIndex(DatabaseSetup.KEY_SUBJECT);
         int taskSelect = cursor.getColumnIndex(DatabaseSetup.KEY_NAME);
-        int imgColor = cursor.getColumnIndex(DatabaseSetup.KEY_COLOUR);
         
         date.setText(cursor.getString(dateSelect));
         subject.setText(cursor.getString(subjectSelect));
         task.setText(cursor.getString(taskSelect));
-        modImg.setColorFilter(cursor.getInt(imgColor));
     }
         
 }
