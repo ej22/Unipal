@@ -16,8 +16,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class TaskFragment extends Fragment{
 
@@ -79,5 +81,32 @@ public class TaskFragment extends Fragment{
 		lv.addHeaderView(new View(getActivity()), null, false);
 		
 		lv.setAdapter(myAdapter);
+		
+		lv.setOnItemClickListener(new OnItemClickListener(){
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View v, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				EditTaskFragment frag = new EditTaskFragment();
+				Bundle editInfo = new Bundle();
+				Cursor c = db.getTaskDetails(id);
+				editInfo.putLong("_id", c.getLong(0));
+				editInfo.putString("Name", c.getString(1));
+				editInfo.putString("Subject", c.getString(2));
+				editInfo.putString("EventType", c.getString(3));
+				editInfo.putString("SubType", c.getString(4));
+				editInfo.putString("Due_Date", c.getString(5));
+				editInfo.putString("Desc", c.getString(6));
+				frag.setArguments(editInfo);
+				
+				FragmentManager fm = getFragmentManager();
+				FragmentTransaction ft = fm.beginTransaction();
+				ft.addToBackStack(null);
+				ft.replace(R.id.frag_container, frag);
+				ft.commit();
+			}
+			
+		});
 	}
 }

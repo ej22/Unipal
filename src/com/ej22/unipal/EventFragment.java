@@ -146,6 +146,8 @@ public class EventFragment extends Fragment{
 			return true;
 		}
 		if (id == R.id.menu_save_btn){
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+			getActivity().getActionBar().setHomeButtonEnabled(true);
 			try{
 				String s1 = name.getText().toString();		
 				String s2 = subject.getSelectedItem().toString();
@@ -170,6 +172,18 @@ public class EventFragment extends Fragment{
 			((InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE))
 		    .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 			//reference complete
+			
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+			
+			if(eventType.getSelectedItem().toString().equals("Task")){
+				ft.replace(R.id.frag_container, new TaskFragment());
+			}
+			else if(eventType.getSelectedItem().toString().equals("Exam")){
+				ft.replace(R.id.frag_container, new ExamFragment());
+			}
+			
+			ft.commit();
 			
 			return true;
 		}

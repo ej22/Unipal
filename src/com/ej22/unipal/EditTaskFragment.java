@@ -75,7 +75,7 @@ public class EditTaskFragment extends Fragment{
 		bundleDueDate = extras.getString("Due_Date");
 		bundleDesc = extras.getString("Desc");
 		
-		eventSelection=1;
+		eventSelection=0;
 		
 		name = (EditText)rootView.findViewById(R.id.EnterName);
 		subject = (Spinner)rootView.findViewById(R.id.EnterSubject);
