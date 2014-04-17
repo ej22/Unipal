@@ -4,11 +4,14 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,18 +34,21 @@ import android.widget.Toast;
 
 import com.ej22.unipal.model.DatabaseSetup;
 
-public class EventFragment extends Fragment{
-
+public class EditTaskFragment extends Fragment{
 	private int day, month, year;
 	DatabaseSetup db;
 	
 	//Needed to do insert
 	TextView dueDate;
 	EditText name, subtype, desc;
+	Cursor c;
 	Spinner eventType, subject;
-	java.sql.Date date;
-	int selection;
-	String moduleSelection;
+	static ArrayAdapter<String> subjectAdapter;
+	int eventSelection, subjectSelection;
+	long rowId;
+	
+	String moduleSelection, bundleName, bundleSubject, bundleEventType, bundleSubType, 
+	bundleDueDate, bundleDesc; 
 	
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
@@ -52,18 +58,24 @@ public class EventFragment extends Fragment{
 		
 		loadModuleSpinnerData();
 		
-		Toast.makeText(getActivity(), "" + selection, Toast.LENGTH_SHORT).show();
-		
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
 		getActivity().getActionBar().setHomeButtonEnabled(false);
-		
 	}
+	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		
 		View rootView = inflater.inflate(R.layout.fragment_event, container, false);
 		
 		Bundle extras = getArguments();
-		selection = extras.getInt("spinner selection");
+		rowId = extras.getLong("_id");
+		bundleName = extras.getString("Name");
+		bundleSubject = extras.getString("Subject");
+		bundleEventType = extras.getString("EventType");
+		bundleSubType = extras.getString("SubType");
+		bundleDueDate = extras.getString("Due_Date");
+		bundleDesc = extras.getString("Desc");
+		
+		eventSelection=1;
 		
 		name = (EditText)rootView.findViewById(R.id.EnterName);
 		subject = (Spinner)rootView.findViewById(R.id.EnterSubject);
@@ -71,10 +83,14 @@ public class EventFragment extends Fragment{
 		desc = (EditText)rootView.findViewById(R.id.descriptionEditText);
 		eventType = (Spinner)rootView.findViewById(R.id.spinnerEventType);
 		
+		name.setText(bundleName);
+		subtype.setText(bundleSubType);
+		desc.setText(bundleDesc);
+		
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.spinnerEventTypes, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		eventType.setAdapter(adapter);
-		eventType.setSelection(selection);
+		eventType.setSelection(eventSelection);
 		
 		subject.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -84,7 +100,7 @@ public class EventFragment extends Fragment{
 				// TODO Auto-generated method stub
 				moduleSelection = adapter.getItemAtPosition(position).toString();
 				
-				Toast.makeText(getActivity(),moduleSelection + "   " + position,Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(),moduleSelection,Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
@@ -101,7 +117,7 @@ public class EventFragment extends Fragment{
 		year = c.get(Calendar.YEAR);
 		
 		dueDate = (TextView)rootView.findViewById(R.id.dueDateDialog);
-		dueDate.setText("" + day + " of " + getStringMonth(month) + " " + year);
+		dueDate.setText(bundleDueDate);
 		dueDate.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -127,7 +143,7 @@ public class EventFragment extends Fragment{
 	}
 	
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
-		inflater.inflate(R.menu.event_menu, menu);
+		inflater.inflate(R.menu.update_menu, menu);
 		return;
 	}
 	
@@ -135,7 +151,7 @@ public class EventFragment extends Fragment{
 		
 		
 		int id = item.getItemId();
-		if (id == R.id.menu_cancel_btn) {
+		if (id == R.id.cancel_btn) {
 			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 			getActivity().getActionBar().setHomeButtonEnabled(true);
 			FragmentManager fm = getFragmentManager();
@@ -145,7 +161,10 @@ public class EventFragment extends Fragment{
 			Toast.makeText(getActivity(), "CANCEL", Toast.LENGTH_SHORT).show();
 			return true;
 		}
-		if (id == R.id.menu_save_btn){
+		if (id == R.id.accept_btn){
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+			getActivity().getActionBar().setHomeButtonEnabled(true);
+			
 			try{
 				String s1 = name.getText().toString();		
 				String s2 = subject.getSelectedItem().toString();
@@ -154,12 +173,7 @@ public class EventFragment extends Fragment{
 				String s5 = dueDate.getText().toString();
 				String s6 = desc.getText().toString();
 				
-				if(s3.equals("Task")){
-					db.insertTask(s1, s2, s3, s4, s5, s6);
-				}
-				else if (s3.equals("Exam")){
-					db.insertExam(s1, s2, s3, s4, s5, s6);
-				}
+				db.updateTask(rowId, s1, s2, s3, s4, s5, s6);
 				
 			}catch(SQLException e){
 				Log.e("InsertFail", "Failed to insert");
@@ -171,7 +185,49 @@ public class EventFragment extends Fragment{
 		    .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 			//reference complete
 			
+			FragmentManager fm = getFragmentManager();
+			FragmentTransaction ft = fm.beginTransaction();
+			
+			ft.replace(R.id.frag_container, new TaskFragment());
+			ft.commit();
+			
 			return true;
+		}
+		if(id == R.id.discard_btn){
+			getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+			getActivity().getActionBar().setHomeButtonEnabled(true);
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			builder.setTitle("Confirm Delete");
+	        builder.setMessage(R.string.delete_confim)
+	               .setPositiveButton(R.string.delete_btn, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       db.deleteTask(rowId);
+	                       Toast.makeText(getActivity(), "Delete Successful", Toast.LENGTH_SHORT).show();
+	                       
+	                       FragmentManager fm = getFragmentManager();
+	           			   FragmentTransaction ft = fm.beginTransaction();
+	           			
+	           			   ft.replace(R.id.frag_container, new TaskFragment());
+	           			   ft.commit();
+	                       
+	                   }
+	               })
+	               .setNegativeButton(R.string.cancel_btn, new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                       dialog.dismiss();
+	                       
+	                       FragmentManager fm = getFragmentManager();
+	           			FragmentTransaction ft = fm.beginTransaction();
+	           			
+	           			ft.replace(R.id.frag_container, new TaskFragment());
+	           			ft.commit();
+	                   }
+	               });
+	        // Create the AlertDialog object and return it
+	        AlertDialog dialog = builder.create();
+	        dialog.show();
+	        
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -198,8 +254,15 @@ public class EventFragment extends Fragment{
 	
 	private void loadModuleSpinnerData(){
 		List<String> titles = db.getMouduleTitles();
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, titles);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		subject.setAdapter(adapter);
+		subjectAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item, titles);
+		subjectAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		subject.setAdapter(subjectAdapter);
+		
+		for(int i=0;i<titles.size();i++){
+			if(bundleSubject.matches(titles.get(i))){
+				subject.setSelection(i);
+				break;
+			}
+		}
 	}
 }

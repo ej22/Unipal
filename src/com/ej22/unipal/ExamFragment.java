@@ -90,10 +90,16 @@ public class ExamFragment extends Fragment{
 			public void onItemClick(AdapterView<?> adapter, View v, int pos,
 					long id) {
 				// TODO Auto-generated method stub
-				EditEventFragment frag = new EditEventFragment();
+				EditExamFragment frag = new EditExamFragment();
 				Bundle editInfo = new Bundle();
-				editInfo.putLong("_id", id);
-				editInfo.putString("Name", name);
+				Cursor c = db.getExamDetails(id);
+				editInfo.putLong("_id", c.getLong(0));
+				editInfo.putString("Name", c.getString(1));
+				editInfo.putString("Subject", c.getString(2));
+				editInfo.putString("EventType", c.getString(3));
+				editInfo.putString("SubType", c.getString(4));
+				editInfo.putString("Due_Date", c.getString(5));
+				editInfo.putString("Desc", c.getString(6));
 				frag.setArguments(editInfo);
 				
 				FragmentManager fm = getFragmentManager();
