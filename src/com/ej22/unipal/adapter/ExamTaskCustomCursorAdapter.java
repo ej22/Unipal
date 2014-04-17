@@ -6,7 +6,8 @@
  * 
  * Purpose: To create a custom adapter relating to the database fields and associated objects.
  * 
- */package com.ej22.unipal.adapter;
+ */
+package com.ej22.unipal.adapter;
 
 import android.content.Context;
 import android.database.Cursor;

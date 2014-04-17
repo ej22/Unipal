@@ -5,7 +5,7 @@
  * Date: 17/04/2014
  * 
  * Purpose: To inflate the fragment which will be used for editing a module in the local SQLite database
- * 
+ * LIBRARY REFERENCE: https://android.googlesource.com/platform/frameworks/opt/colorpicker/
  */
 package com.ej22.unipal;
 
